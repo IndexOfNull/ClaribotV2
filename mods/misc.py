@@ -28,6 +28,11 @@ class Misc():
 		self.bytes_download_images = self.funcs.misc.bytes_download_images
 
 	@commands.command()
+	@commands.cooldown(1,2,commands.BucketType.user)
+	async def help(self,ctx):
+		await ctx.send("https://github.com/IndexOfNull/ClaribotV2/blob/master/Commands.txt")
+
+	@commands.command()
 	@commands.cooldown(1,5,commands.BucketType.guild)
 	async def crypto(self,ctx,fromcur:str,tocur:str):
 		try:

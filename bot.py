@@ -75,6 +75,7 @@ def setup_funcs(bot):
 	bot.funcs = funcs.Funcs(bot)
 	bot.responses = get_responses()
 	bot.AdvChecks = checks.AdvChecks(bot) #this is a bit of a cheat/hack, but it works!
+	bot.remove_command("help")
 
 class Claribot(commands.AutoShardedBot):
 

@@ -28,31 +28,31 @@ Fun:
   4. Guy Fieri                : $fieri <image>
   5. Bandicam                 : $bandicam <image>
   6. Hacker                   : $hacker <image>
-  Apple Keynote               : $keynote <image>
-  Sharpen Bomb                : $sharpenbomb <image>
-  Caption An Image            : $caption <text> -- Captions the last image posted
-  Compliment Someone          : $[compliment|wholesome] <user>
-  Eight Ball                  : $8ball <question>*
-  Dad Joke                    : $dad
-  Insult                      : $insult <user>
-  Identify Image              : $identify <image>
-  Participation Trophy        : $trophy <user>*
-  Wasted (GTA)                : $wasted <image>
-  Filthy Frank                : $frank <image>
-  MaxMoeFoe                   : $max
-  Cat Pic                     : $cat
-  Dog Pic                     : $dog
-  Change My Mind              : $cmm <text>*
-  Reverse Text                : $reverse <text>*
-  Zalgo Text                  : $zalgo <text>*
-  Flip a coin                 : $coin
-  Rock, Paper, Scissors       : $rps <weapon> -- Weapon can be 'rock', 'paper', or 'scissors'. One letter abbreviations are also accepted.
-  Make A Decision For You     : $choice [option1] | [option2] -- Seperate options with a |
-  Roll Some Dice              : $roll <sides> <count>
-  Free Smilies!               : $freesmiley
+  7. Apple Keynote               : $keynote <image>
+  8. Sharpen Bomb                : $sharpenbomb <image>
+  9. Caption An Image            : $caption <text> -- Captions the last image posted
+  10. Compliment Someone          : $[compliment|wholesome] <user>
+  11. Eight Ball                  : $8ball <question>*
+  12. Dad Joke                    : $dad
+  13. Insult                      : $insult <user>
+  14. Identify Image              : $identify <image>
+  15. Participation Trophy        : $trophy <user>*
+  16. Wasted (GTA)                : $wasted <image>
+  17. Filthy Frank                : $frank <image>
+  18. MaxMoeFoe                   : $max
+  19. Cat Pic                     : $cat
+  20. Dog Pic                     : $dog
+  21. Change My Mind              : $cmm <text>*
+  22. Reverse Text                : $reverse <text>*
+  23. Zalgo Text                  : $zalgo <text>*
+  24. Flip a coin                 : $coin
+  25. Rock, Paper, Scissors       : $rps <weapon> -- Weapon can be 'rock', 'paper', or 'scissors'. One letter abbreviations are also accepted.
+  26. Make A Decision For You     : $choice [option1] | [option2] -- Seperate options with a |
+  27. Roll Some Dice              : $roll <sides> <count>
+  28. Free Smilies!               : $freesmiley
 
 Mr Meme (commands featuring Mr. Meme):
-  Binoculars                  : $binoculars <image>
+  1. Binoculars                  : $binoculars <image>
   [REDACTED]
 
 Image Manipulation:
@@ -67,20 +67,20 @@ Image Manipulation:
   9. Mirror Image           : $mirror <image>
 
 Misc:
-  Color                       : $color [hex|r] <g> <b> -- Will get random color if hex or rgb input is invalid or missing.
-  Hash                        : $hash <algorithm>* <input>*
-    md5
-    sha1
-    sha256
-    sha512
-    blake2b
-    blake2s
-  QR Code                     : $qr <data> -- You may enter text, or up to 3 urls
-    QR Decode                   : $qrdecode <images> -- You may decode up to 2 images
-  User Avatar                 : $avatar <user> -- You can also type "server" to get the server icon
-  Random Number               : $random <min>* <max>*
-  Upside Down Text            : $upsidedown <text>*
-  Cryptocurrency Conversion   : $crypto <from> <to> -- Converts 1 of "from" into the value of "to" (eg. 1 BTC -> 6000 USD)
+  1. Color                       : $color [hex|r] <g> <b> -- Will get random color if hex or rgb input is invalid or missing.
+  2. Hash                        : $hash <algorithm>* <input>*
+    2.1 md5
+    2.2 sha1
+    2.3 sha256
+    2.4 sha512
+    2.5 blake2b
+    2.6 blake2s
+  3. QR Code                     : $qr <data> -- You may enter text, or up to 3 urls
+    3.1 QR Decode                   : $qrdecode <images> -- You may decode up to 2 images
+  4. User Avatar                 : $avatar <user> -- You can also type "server" to get the server icon
+  5. Random Number               : $random <min>* <max>*
+  6. Upside Down Text            : $upsidedown <text>*
+  7. Cryptocurrency Conversion   : $crypto <from> <to> -- Converts 1 of "from" into the value of "to" (eg. 1 BTC -> 6000 USD)
 
 
 NSFW (Must be in a NSFW channel):
