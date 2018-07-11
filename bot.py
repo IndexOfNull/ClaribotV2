@@ -160,6 +160,8 @@ class Claribot(commands.AutoShardedBot):
 			await ctx.send(ctx.gresponses['no_admin'])
 		elif isinstance(e, checks.No_Mod):
 			await ctx.send(ctx.gresponses['no_mod'])
+		elif isinstance(e, checks.No_Special)
+			await ctx.send(ctx.gresponses['no_special'])
 		elif isinstance(e, checks.NSFW_Disabled):
 			await ctx.send(ctx.gresponses['nsfw_disabled'])
 		elif isinstance(e, checks.No_BotOwner):
@@ -171,8 +173,8 @@ class Claribot(commands.AutoShardedBot):
 		elif isinstance(e, commands.MissingRequiredArgument) or isinstance(e, commands.BadArgument):
 			await self.command_help(ctx)
 		else:
-			print("ERROR: " + str(e))
-			await ctx.send("Command Error: `{0}`".format(e))
+			print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
+			await ctx.send("Command Error ({0}): `{1}`".format(type(e).__name__,e))
 		ctx.command.reset_cooldown(ctx)
 
 	@property
