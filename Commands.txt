@@ -1,0 +1,140 @@
+
+   ___  ____                ___
+ .'   \ /   \       _   __ /   \
+ |      |,_-<       |   /    _-'
+ |      |    `      `  /    /
+  `.__, `----'       \/    /___,
+
+  CB v2, by Dk
+  Claribot#5331 (399081551616278533)
+
+* - Required Argument
+
+$help - Views this page
+
+<image> - Accepts URLs and attachments, if none are supplied, the last attachment (within the last 30 messages) is retrieved.
+
+$[cmd|cmd2] - Command aliases
+
+(^) - Must be bot owner
+($) - Requires special perms (given to you by the bot owner)
+(++) - Requires admin permissions
+(+) - Requires moderator permissions
+
+Fun:
+  1. Logan Paul               : $logan <image>
+  2. New Funky Mode           : $funky <image>
+  3. And Knuckles             : $[andknuckles|sonic3] <image>
+  4. Guy Fieri                : $fieri <image>
+  5. Bandicam                 : $bandicam <image>
+  6. Hacker                   : $hacker <image>
+  Apple Keynote               : $keynote <image>
+  Sharpen Bomb                : $sharpenbomb <image>
+  Caption An Image            : $caption <text> -- Captions the last image posted
+  Compliment Someone          : $[compliment|wholesome] <user>
+  Eight Ball                  : $8ball <question>*
+  Dad Joke                    : $dad
+  Insult                      : $insult <user>
+  Identify Image              : $identify <image>
+  Participation Trophy        : $trophy <user>*
+  Wasted (GTA)                : $wasted <image>
+  Filthy Frank                : $frank <image>
+  MaxMoeFoe                   : $max
+  Cat Pic                     : $cat
+  Dog Pic                     : $dog
+  Change My Mind              : $cmm <text>*
+  Reverse Text                : $reverse <text>*
+  Zalgo Text                  : $zalgo <text>*
+  Flip a coin                 : $coin
+  Rock, Paper, Scissors       : $rps <weapon> -- Weapon can be 'rock', 'paper', or 'scissors'. One letter abbreviations are also accepted.
+  Make A Decision For You     : $choice [option1] | [option2] -- Seperate options with a |
+  Roll Some Dice              : $roll <sides> <count>
+  Free Smilies!               : $freesmiley
+
+Mr Meme (commands featuring Mr. Meme):
+  Binoculars                  : $binoculars <image>
+  [REDACTED]
+
+Image Manipulation:
+  1. Invert Colors          : $invert <image>
+  2. Solarize               : $solarize <image> *Inverts colors based on a random threshold
+  3. Flip Image             : $flip <image>
+  4. Rotate 90 Degrees      : $rotate <image>
+  5. Sharpen Image          : $sharpen <image>
+  6. Blur Image             : $blur <image>
+  7. Posterize Image        : $posterize <image>
+  8. Grayscale Image        : $grayscale <image>
+  9. Mirror Image           : $mirror <image>
+
+Misc:
+  Color                       : $color [hex|r] <g> <b> -- Will get random color if hex or rgb input is invalid or missing.
+  Hash                        : $hash <algorithm>* <input>*
+    md5
+    sha1
+    sha256
+    sha512
+    blake2b
+    blake2s
+  QR Code                     : $qr <data> -- You may enter text, or up to 3 urls
+    QR Decode                   : $qrdecode <images> -- You may decode up to 2 images
+  User Avatar                 : $avatar <user> -- You can also type "server" to get the server icon
+  Random Number               : $random <min>* <max>*
+  Upside Down Text            : $upsidedown <text>*
+  Cryptocurrency Conversion   : $crypto <from> <to> -- Converts 1 of "from" into the value of "to" (eg. 1 BTC -> 6000 USD)
+
+
+NSFW (Must be in a NSFW channel):
+  1.($)FurAffinity            : $fa <query> -- Supports FurAffinity's search syntax.
+  2.Furry                     : $furry <query> -- Supports DeviantArt's search syntax.
+  3.DeviantArt                : $da <query> -- Supports DeviantArt's search syntax
+  4.Catgirl                   : $catgirl <tags> -- Tags are comma seperated
+
+Utility/Information:
+  1. (++)Server Prefix            : $prefix <prefix>
+    1.1 (++)Reset Prefix          : $prefix reset
+  2. (++)Set Personality          : $personality <personality>
+  3. (+)Set Nickname              : $nick <nickname> -- Not supplying a nickname will reset it to default.
+  4. (++)Set Option               : $option <option>* <value> -- See below for valid options. Values can be 'yes','no','y','n','true','false'
+  5. (++)Blacklist                : $blacklist <type>* <target>*
+    5.1 List                        : $blacklist list -- Lists all blacklists
+    5.2 User                        : $blacklist user <user>
+    5.3 Channel                     : $blacklist channel <channel>
+    5.4 Command                     : $blacklist command <command>
+  6. Submit A Suggestion          : $suggest <suggestion>* -- Please do not spam this.
+  7. File A Complaint             : $complaint <complaint>* -- Please be nice and constructive, so that we know what's wrong, please do not spam this.
+
+Administration/Moderation:
+  1. (++)Ban By User ID           : $idban <id> -- (can ban users that are not on your server)
+  2. (+)Send a warning            : $warn <user>* <reason>*
+    2.1 (+)List Of User Warnings  : $warning list <user>*
+    2.2 (+)Get A Warning          : $warning get <id>*
+    2.3 (+)Delete A Warning       : $warning del <id>*
+  3. (+)Delete Messages           : $prune <max_messages>* <user>
+    3.1 (+)From Bots                : $prune bots <max_messages>*
+    3.2 (+)With Attachments         : $prune attachments <max_messages>*
+    3.3 (+)With Embeds              : $prune embeds <max_messages>*
+    3.4 (+)With Images              : $prune images <max_messages>*
+    3.5 (+)With Gifs                : $prune gifs <max_messages>*
+    3.6 (+)Containing               : $prune with <max_messages>* <text>*
+  4. (+)Clean Bot Messages        : $clean <max_messages>* -- To clarify, this prunes messages from Claribot#5331
+
+
+Server Options:
+  1. nsfw_enabled             : Enables or disables nsfw commands.
+
+Bot Management (Must be bot owner to execute):
+  1. (^)Eval                     : $eval <code>*
+  2. (^)Change Playing Status    : $playing <status>*
+  3. (^)Bot Avatar               : $botavatar <image>
+  4. (^)Manage SpecialBot Perms  : $special [add|remove|<user>]
+    4.1 (^)Give SpecialBot Perms   : $special add <user>*
+    4.2 (^)Remove SpecialBot Perms : $special remove <user>*
+    4.3 (^)List SpecialBot Users   : $special list
+    4.4 (^)Check User's Perms      : $special <user>
+  5. Read Suggestions              : $suggestions <max> <id>
+
+
+Credits:
+  - Rapptz: discord.py
+  - MorbZ: OpenSansEmoji
+  - Everyone who contributed to all modules used

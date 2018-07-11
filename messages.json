@@ -1,0 +1,131 @@
+{
+  "normal": {
+    "_comment": "'default' is reserved for values that are not specified, it should be ignored when selected as a personality. Also, make sure EVERYTHING is put here when developing, as it cannot have any missing values.",
+    "global": {
+      "cooldown": ":timer: This command is currently on cooldown. Please try again in {0}.",
+      "file_count_limit": ":no_entry: Please enter fewer than {0} files.",
+      "missing_image_attachments": ":frame_photo: Please input url(s){0}or attachment(s).",
+      "image_command": ":frame_photo: This command is for still images only.",
+      "gif_command": ":film_frames: This command is for gifs only.",
+      "response_too_big": ":envelope: I can't upload my response because it is too big.",
+      "download_fail": ":warning: Something went wrong while downloading one of your file(s).",
+      "forbidden_upload": ":no_entry: It appears that I do not have permission to upload my response. If this isn't intentional, check to make sure that my permissions are configured properly.",
+      "bot_missing_perms": ":warning: I do not have the necessary permissions to successfully execute your command. [I need: `{0}`]",
+      "generic_api_error": ":warning: There was an API error.",
+      "generic_database_error": ":warning: Something went wrong while working with the database.",
+      "generic_limit": ":no_entry: Please enter {0} than {1}.",
+      "confirmation_needed": ":pencil: I need confirmation before executing your command. Please check your DMs for a confirmation message.",
+      "guild_only": ":no_entry: That command can only be used in guilds.",
+      "generic_sent_success": ":white_check_mark: Your {0} has been sent successfully!",
+      "no_bot_owner": ":no_entry: You must be the bot owner in order to execute this command.",
+      "no_special": ":sparkles: Thas command is restricted to SpecialBot users (friends of the owner).",
+      "no_nsfw": ":underage: That command is restricted to NSFW channels only.",
+      "no_mod": ":no_entry: That command is restricted to moderators.",
+      "no_admin": ":no_entry: That command is restricted to admins.",
+      "no_perms": ":no_entry: I hit a 403 error, please check that my permissions are setup propery. This could be a problem on our part.",
+      "nsfw_disabled": ":no_entry: NSFW commands have been disabled on this server.",
+      "check_failure": ":warning: Something went wrong while checking qualifications for this command."
+    },
+    "commands": {
+      "prefix": {
+        "current_prefix": ":gear: My command prefix for this server is `{0}`.",
+        "set_prefix": ":white_check_mark: My command prefix for this server has been set to `{0}`.",
+        "error": ":x: Something went wrong while updating my prefix, please try again.",
+        "reset_prefix": ":white_check_mark: My command prefix has been reset back to `$`."
+      },
+      "personality": {
+        "current": ":bust_in_silhouette: My personality is currently set to `{0}`",
+        "set": ":white_check_mark: My personality has been changed to `{0}`",
+        "error": ":x: Something went wrong while changing personalities, please try again.",
+        "invalid": ":warning: That isn't a valid personality, the valid personalities are `{0}`."
+      },
+      "option": {
+        "current": ":file_cabinet: `{0}` is currently set to `{1}`",
+        "error_retrieve": ":x: Something went wrong while getting the current value of `{0}`, please try again.",
+        "error_set": ":x: Something went wrong while updating the value of `{0}`, please try again.",
+        "success": ":white_check_mark: The value of `{0}` has been set to `{1}`",
+        "invalid_option": ":warning: That isn't a valid option, the valid options are `{0}`."
+      },
+      "rps": {
+        "won": "{0}! I win.",
+        "lost": "{0}! You win.",
+        "draw": "{0}! It's a draw.",
+        "invalid_input": "You can't play rock, paper, scissors with that."
+      },
+      "choose": {
+        "selection": "I choose `{0}`!"
+      },
+      "nickname": {
+        "too_long": ":no_entry: Please enter a nickname with fewer than 32 characters.",
+        "success": ":white_check_mark: My nickname has been updated successfully!"
+      },
+      "roll": {
+        "max": ":no_entry: Please roll fewer than {0} dice.",
+        "rolls": ":game_die: I rolled {0}."
+      },
+      "furaffinity": {
+        "no_results": ":mag: It doesn't look like there are any results matching your query.",
+        "error": ":no_entry: Something went wrong, FA may be blocking bots right now."
+      },
+      "deviantart": {
+        "no_results": ":mag: It doesn't look like there are any results matching your query."
+      },
+      "furry": {
+        "no_results": ":mag: It doesn't look like there are any results matching your query."
+      },
+      "blacklist": {
+        "invalid_command": ":no_entry: That is not a valid command.",
+        "command_toggled": ":white_check_mark: I have successfully toggled that command.",
+        "channel_toggled": ":white_check_mark: I have successfully toggled that channel.",
+        "user_toggled": ":white_check_mark: I have successfully toggled that user.",
+        "toggle_error": ":warning: Something went wrong while toggling your command."
+      },
+      "qrdecode": {
+        "no_data": ":warning: I couldn't find a QR code in this image."
+      },
+      "idban": {
+        "success": ":white_check_mark: {0} has been successfully banned.",
+        "no_user": ":warning: That is not a valid user id."
+      },
+      "crypto": {
+        "invalid_currency": ":warning: No valid data was returned. Please make sure you are using valid 3-letter currency codes."
+      },
+      "warn": {
+        "error": ":warning: Something went wrong while sending a warning to that user. Please note that the warning may have still been entered.",
+        "success": ":white_check_mark: I have sent your warning to {0.mention}."
+      },
+      "warning": {
+        "invalid_id": ":warning: A warning with that ID doesn't exist.",
+        "get_success": ":white_check_mark: I sent you a copy of warning `{0}`.",
+        "del_success": ":white_check_mark: I have deleted the specified warning successfully.",
+        "del_error": ":warning: Something went wrong while deleting the specified warning. Note that it still may have been deleted.",
+        "list": ":outbox_tray: I sent you a list of warnings for the specified user."
+      },
+      "prune": {
+        "generic_success": ":white_check_mark: I have successfully pruned {0} message(s).",
+        "by_success": ":white_check_mark: I have successfully pruned {0} message(s) from {1}.",
+        "with_success": ":white_check_mark: I have successfully pruned {0} message(s) with {1}.",
+        "none_pruned": ":warning: No messages were pruned.",
+        "error": ":warning: Something went wrong while pruning message(s)."
+      },
+      "clean": {
+        "generic_success": ":white_check_mark: I have successfully cleaned {0} of my messages.",
+        "none_pruned": ":warning: No messages were cleaned."
+      },
+      "suggestions": {
+        "none": "There are currently no suggestions to report."
+      },
+      "complaints": {
+        "none": "There are currently no complaints to report."
+      }
+    }
+  },
+  "mean": {
+    "global": {
+      "cooldown": "Fuck that command is on cooldown"
+    },
+    "commands": {
+
+    }
+  }
+}
