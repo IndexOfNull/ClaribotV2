@@ -11,6 +11,8 @@ import json
 
 import async_timeout
 
+from colorama import Fore, Back, Style
+
 import datetime
 from dateutil import tz
 
@@ -218,7 +220,7 @@ class CommandFuncs():
 			await ctx.send(ctx.gresponses['forbidden_upload'])
 			return
 		await ctx.send("`{0}`\nIf this problem persists, you may consider sending a complaint with $complain".format(e))
-		print(e)
+		print(Fore.RED + e + Style.RESET_ALL)
 
 class MainFuncs():
 

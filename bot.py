@@ -114,6 +114,8 @@ class Claribot(commands.AutoShardedBot):
 				msg = Fore.RED + '======COG ERROR======\nModule: {0}\n{1}: {2}\n====================='.format(cog,type(e).__name__,e)
 				print(msg)
 		playing = self.data.DB.get_bot_setting('playing')
+		if not playing:
+			playing = "Database Errors"
 		out = Fore.GREEN + "------\n{0}\n{1}\nPlaying: {2}\nDeveloper Mode: {3}\n------".format(self.user,("Shard: {0}/{1}".format(self.shard_id,self.shard_count-1)) if self.shard_id is not None else "Shard: ==AUTO SHARDED==",playing,"TRUE" if self.dev_mode else "FALSE") + Style.RESET_ALL
 		print(out)
 		await self.change_presence(activity=discord.Game(name=playing))
