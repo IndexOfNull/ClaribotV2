@@ -34,7 +34,7 @@ class Admin():
 			await self.funcs.command.handle_error(ctx,e)
 
 
-	@commands.group()
+	@commands.group(invoke_without_command=True)
 	@commands.cooldown(1,5,commands.BucketType.guild)
 	@commands.guild_only()
 	@checks.admin_or_perm(manage_server=True)
@@ -94,11 +94,11 @@ class Admin():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
-	@blacklist.command()
+	@blacklist.command(name='list')
 	@commands.cooldown(1,5,commands.BucketType.guild)
 	@commands.guild_only()
 	@checks.admin_or_perm(manage_server=True)
-	async def list(self,ctx):
+	async def listblacklist(self,ctx):
 		try:
 			await ctx.trigger_typing()
 			mstr = "```md\nBlacklisted Channels\n--------------------\n{0}\nBlacklisted Commands\n--------------------\n{1}\nBlacklisted Users\n--------------------\n{2}\n```"

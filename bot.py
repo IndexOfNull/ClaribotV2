@@ -132,11 +132,11 @@ class Claribot(commands.AutoShardedBot):
 			context = await self.funcs.overides.get_context(message,prefix)
 			blacklisted = self.funcs.main.is_blacklisted(guild=message.guild,message=message,command=context.command)
 			if blacklisted:
-				print('Blacklisted')
 				return
 			await self.funcs.overides.process_commands(message,prefix)
 
 	async def on_command_error(self,ctx,e):
+		print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
 		if isinstance(e, commands.CommandNotFound):
 			return
 		elif isinstance(e, commands.CommandOnCooldown):
@@ -160,7 +160,7 @@ class Claribot(commands.AutoShardedBot):
 			await ctx.send(ctx.gresponses['no_admin'])
 		elif isinstance(e, checks.No_Mod):
 			await ctx.send(ctx.gresponses['no_mod'])
-		elif isinstance(e, checks.No_Special)
+		elif isinstance(e, checks.No_Special):
 			await ctx.send(ctx.gresponses['no_special'])
 		elif isinstance(e, checks.NSFW_Disabled):
 			await ctx.send(ctx.gresponses['nsfw_disabled'])

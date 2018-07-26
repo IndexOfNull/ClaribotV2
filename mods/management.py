@@ -41,7 +41,7 @@ class Management():
 	@checks.admin_or_perm(manage_server=True)
 	async def reset(self,ctx):
 		try:
-			success = self.data.DB.set_prefix(ctx.guild,"v2.")
+			success = self.data.DB.set_prefix(ctx.guild,"$")
 			if success:
 				await ctx.send(ctx.cresponses['reset_prefix'])
 			else:

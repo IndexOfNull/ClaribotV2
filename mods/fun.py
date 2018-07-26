@@ -612,18 +612,30 @@ class Fun():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
-	@commands.command()
+	@commands.command(aliases=['dice'])
 	@commands.cooldown(1,3,commands.BucketType.user)
 	async def roll(self,ctx,sides:int=6,count:int=1):
+		if sides <= 0:
+			await ctx.send(ctx.cresponses['min'].format("least","1 side"))
+			return
+		if count <= 0:
+			await ctx.send(ctx.cresponses['min_dice'].format(1))
+			return
 		if count > 10:
 			await ctx.send(ctx.cresponses['max'].format(10))
+			return
+		if sides > 1000000000:
+			await ctx.send(ctx.cresponses['max_sides'].format(1000000000))
 			return
 		try:
 			await ctx.trigger_typing()
 			rolls = []
 			for d in range(count):
 				rolls.append(str(randint(1,sides)))
-			await ctx.send(ctx.cresponses['rolls'].format(', '.join(rolls)))
+			if count > 1:
+				await ctx.send(ctx.cresponses['rolls'].format(', '.join(rolls)))
+			else:
+				await ctx.send(ctx.cresponses['single_roll'].format(', '.join(rolls)))
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 

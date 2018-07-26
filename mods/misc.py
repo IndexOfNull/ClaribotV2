@@ -291,7 +291,6 @@ class Misc():
 							return
 						img = Image.open(b).convert("L")
 						data = decode(img,scan_locations=True)
-						print(data)
 						if not data:
 							await ctx.send(ctx.cresponses['no_data'])
 							continue

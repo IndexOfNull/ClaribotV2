@@ -415,6 +415,7 @@ class DB():
 			return prefix
 		except Exception as e:
 			print(e)
+			return "$"
 			self.cursor.rollback()
 
 	def set_prefix(self,guild,prefix:str): #Sets the command prefix for the guild
