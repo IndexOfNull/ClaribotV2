@@ -44,7 +44,8 @@
         "error_retrieve": ":x: Something went wrong while getting the current value of `{0}`, please try again.",
         "error_set": ":x: Something went wrong while updating the value of `{0}`, please try again.",
         "success": ":white_check_mark: The value of `{0}` has been set to `{1}`",
-        "invalid_option": ":warning: That isn't a valid option, the valid options are `{0}`."
+        "invalid_option": ":warning: That isn't a valid option, the valid options are `{0}`.",
+        "invalid_value": ":warning: You did not enter a valid value, please use `{0}`."
       },
       "rps": {
         "won": "{0}! I win.",
@@ -121,6 +122,9 @@
       },
       "complaints": {
         "none": "There are currently no complaints to report."
+      },
+      "owo": {
+        "count": "***{0.name}#{0.discriminator}*** has *OwO*'d {1} times."
       }
     }
   },

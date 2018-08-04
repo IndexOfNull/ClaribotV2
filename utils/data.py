@@ -12,6 +12,7 @@ class Data():
 	def __init__(self,bot):
 		self.DB = DB(bot)
 		self.datasets = Datasets()
+		self.counters = Counter(bot)
 
 class Datasets():
 
@@ -181,6 +182,61 @@ class Datasets():
 			'\u2234' : '\u2235', # ∴ --> ∵
 		}
 		return rot180
+
+class Counter():
+
+	def __init__(self,bot):
+		self.bot = bot
+		self.cursor = self.bot.mysql.cursor
+
+	def get_owo_count(self,user,guild,**kwargs):
+		all = kwargs.pop("every",False)
+		default = kwargs.pop("default",0)
+		if guild is None and not all is True:
+			all = True
+		try:
+			if all:
+				sql = "SELECT sum(count) FROM `owo_counter` WHERE user_id={0.id}".format(user)
+			else:
+				sql = "SELECT count FROM `owo_counter` WHERE server_id={0.id} AND user_id={1.id}".format(guild,user)
+			result = self.cursor.execute(sql).fetchall()
+			if result:
+				return result[0]['count']
+			else:
+				return default
+		except Exception as e:
+			print(e)
+			self.cursor.rollback()
+
+
+	def update_owo_count(self,user,guild,**kwargs): #There is a slight chance this code will need to be redone for a reset bug.
+		set = kwargs.pop("set",None)
+		add = kwargs.pop("add",None) #Will take negative number if subtraction is needed.
+		if not (set or add) and (set != 0 and add != 0):
+			return False
+		try:
+			count = self.get_owo_count(user,guild=guild,default=False) #Get the amount of OwO's, will return False if no row is found
+			if (count or count == 0) or count is False:
+				if count:
+					new_val = count
+				else:
+					new_val = 0
+				if add:
+					new_val += add
+				elif set:
+					new_val = set
+				if count is False:
+					sql = "INSERT INTO `owo_counter` (`server_id`, `user_id`, `count`) VALUES ('{0.id}', '{1.id}', '{2}');".format(guild,user,new_val) #Insert if it doesn't exist
+				else:
+					sql = "UPDATE `owo_counter` SET count={0} WHERE server_id={1.id} AND user_id={2.id}".format(new_val,guild,user)
+				result = self.cursor.execute(sql)
+				self.cursor.commit()
+				return True
+			else:
+				return False
+		except Exception as e:
+			print(e)
+			self.cursor.rollback()
 
 class DB():
 

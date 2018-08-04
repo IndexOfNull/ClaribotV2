@@ -324,5 +324,20 @@ class Misc():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
+	@commands.command()
+	@commands.guild_only()
+	@commands.cooldown(1,5,commands.BucketType.user)
+	async def owo(self,ctx,user:discord.Member=None):
+		if user is None:
+			user = ctx.author
+		try:
+			count = self.data.counters.get_owo_count(user,ctx.guild,default=False)
+			if count is False:
+				count = 0
+			if count or count != 0:
+				await ctx.send(ctx.cresponses['count'].format(user,count))
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
 def setup(bot):
 	bot.add_cog(Misc(bot))

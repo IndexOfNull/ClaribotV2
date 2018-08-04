@@ -11,7 +11,6 @@ import sys,os
 import re
 import json
 
-
 import colorama
 from colorama import Fore, Back, Style
 colorama.init()
@@ -31,10 +30,9 @@ modules = [ #What "cogs" to load up
 	"mods.admin"
 ]
 
-class Object(object):
-	pass
+class Object(object): pass
 
-def get_responses(): #Get all the responses for different personalities and reconstruct any damaged or missing responses.
+def get_responses(): #Get all the responses for different personalities and reconstruct any missing responses.
 	with open("messages.json","r") as f:
 		responses = json.loads(f.read())
 	defaults = responses['normal']
@@ -55,9 +53,7 @@ def get_responses(): #Get all the responses for different personalities and reco
 	responses['normal'] = defaults
 	return responses
 
-
-
-def setup_funcs(bot):
+def setup_funcs(bot): #Initialize any variables and systems that we need later.
 	if bot.dev_mode is True:
 		db_name = "Claribot_dev"
 	else:
@@ -70,12 +66,13 @@ def setup_funcs(bot):
 	bot.mysql = Object()
 	bot.mysql.engine = engine
 	bot.mysql.cursor = bot.get_cursor
+	#Setup functions and data.
 	bot.data = data.Data(bot)
 	bot.imaging = imaging.ImageManip()
 	bot.funcs = funcs.Funcs(bot)
 	bot.responses = get_responses()
-	bot.AdvChecks = checks.AdvChecks(bot) #this is a bit of a cheat/hack, but it works!
-	bot.remove_command("help")
+	bot.AdvChecks = checks.AdvChecks(bot) #this is a bit of a cheat/hack to pass the bot instance to the checks.py file, but it works!
+	bot.remove_command("help") #We will replace it with our own help command later
 
 class Claribot(commands.AutoShardedBot):
 
@@ -96,7 +93,7 @@ class Claribot(commands.AutoShardedBot):
 		self.dev_mode = kwargs.pop('dev_mode',False)
 		self.db_pass = kwargs.pop('dbPass')
 
-	async def command_help(self,ctx):
+	async def command_help(self,ctx): #Format help for a command if needed
 		if ctx.invoked_subcommand:
 			cmd = ctx.invoked_subcommand
 		else:
@@ -105,9 +102,9 @@ class Claribot(commands.AutoShardedBot):
 		for page in pages:
 			await ctx.message.channel.send(page.replace("\n", "fix\n", 1))
 
-	async def on_ready(self):
-		setup_funcs(self)
-		for cog in modules:
+	async def on_ready(self): #When the bot has logged in and is ready
+		setup_funcs(self) #Initialize functions
+		for cog in modules: #Load cogs
 			try:
 				self.load_extension(cog)
 			except Exception as e:
@@ -115,27 +112,36 @@ class Claribot(commands.AutoShardedBot):
 				print(msg)
 		playing = self.data.DB.get_bot_setting('playing')
 		if not playing:
-			playing = "Database Errors"
+			playing = "Database Errors" #If there was an error getting the playing status, use this instead
 		out = Fore.GREEN + "------\n{0}\n{1}\nPlaying: {2}\nDeveloper Mode: {3}\n------".format(self.user,("Shard: {0}/{1}".format(self.shard_id,self.shard_count-1)) if self.shard_id is not None else "Shard: ==AUTO SHARDED==",playing,"TRUE" if self.dev_mode else "FALSE") + Style.RESET_ALL
 		print(out)
-		await self.change_presence(activity=discord.Game(name=playing))
+		await self.change_presence(activity=discord.Game(name=playing)) #Set playing status
 
-	async def on_message(self,message):
+	async def on_message(self,message): #Triggers whenever a message is sent.
 		await self.wait_until_ready()
 		if self.owner is None:
 			app_info = await self.application_info()
 			self.owner = app_info.owner
 		if (self.dev_mode and message.author != self.owner) or message.author.bot:
 			return
-		prefix = self.data.DB.get_prefix(message=message)
+		owo_success = self.funcs.main.handle_owo(message)
+		prefix = self.data.DB.get_prefix(message=message) #Get the server's prefix
 		if (message.content.lower().startswith(prefix) or message.content.startswith("<@!{0}>".format(self.user.id))) and message.content.lower() != prefix: #Get if the message starts with the bot's mention or the guilds prefix
 			context = await self.funcs.overides.get_context(message,prefix)
 			blacklisted = self.funcs.main.is_blacklisted(guild=message.guild,message=message,command=context.command)
+			if context.command.name in ("owo") and owo_success:
+				self.data.counters.update_owo_count(message.author,message.guild,add=-1)
 			if blacklisted:
 				return
 			await self.funcs.overides.process_commands(message,prefix)
+		else:
+			dads = re.findall(r"(?i)(i'm|i am)\s([^.|!|?]+)",message.content)
+			if len(dads) > 0:
+				dad = dads[0][1]
+				if self.data.DB.get_serveropt(message.guild,"dad_mode",default=False,errors=False):
+					await message.channel.send("Hi \"{0}\", I'm {1}.".format(dad,message.guild.me.display_name))
 
-	async def on_command_error(self,ctx,e):
+	async def on_command_error(self,ctx,e): #If a command errors out, error names explain it all.
 		print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
 		if isinstance(e, commands.CommandNotFound):
 			return
@@ -178,13 +184,13 @@ class Claribot(commands.AutoShardedBot):
 		ctx.command.reset_cooldown(ctx)
 
 	@property
-	def get_cursor(self):
+	def get_cursor(self): #DB stuff
 		return session()
 
-	def run(self):
+	def run(self): #Actually run the bot
 		super().run(self.token)
 
-	def die(self):
+	def die(self): #Gracefully shut the bot down
 		try:
 			self.loop.stop()
 			self.loop.run_forever()

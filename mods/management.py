@@ -83,24 +83,28 @@ class Management():
 	@checks.admin_or_perm(manage_server=True)
 	async def option(self,ctx,option:str,value:str=None):
 		option = option.lower()
-		options = ['nsfw_enabled']
-		values = ('yes','y','no','n','false','true')
-		if not option in options or not value in values:
+		options = ['nsfw_enabled','dad_mode']
+		defaults = {'nsfw_enabled':'true','dad_mode':'false'}
+		values = ('yes','y','no','n','false','true','on','off')
+		if not option in options:
 			await ctx.send(ctx.cresponses['invalid_option'].format(", ".join(options)))
 			return
-		if value in ('yes','y'):
+		if not value in values and not value is None:
+			await ctx.send(ctx.cresponses['invalid_value'].format(", ".join(values)))
+			return
+		if value in ('yes','y','on'):
 			value = 'true'
-		elif value in ('no','n'):
+		elif value in ('no','n','off'):
 			value = 'false'
 		try:
 			if value is None:
-				val, success = self.data.DB.get_serveropt(ctx.guild,option,default="true",errors=True)
+				val, success = self.data.DB.get_serveropt(ctx.guild,option,default=defaults[option],errors=True)
 				if not success:
 					await ctx.send(ctx.cresponses['error_retrieve'].format(option))
 				else:
 					await ctx.send(ctx.cresponses['current'].format(option,val))
 			elif value:
-				success = self.data.DB.set_serveropt(ctx.guild,option,value,default="true")
+				success = self.data.DB.set_serveropt(ctx.guild,option,value,default=defaults[option])
 				if success:
 					await ctx.send(ctx.cresponses['success'].format(option,value))
 				else:
