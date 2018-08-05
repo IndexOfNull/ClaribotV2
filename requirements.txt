@@ -6,7 +6,7 @@ beautifulsoup4==4.6.0
 cffi==1.11.5
 chardet==3.0.4
 colorama==0.3.9
-cryptography==2.2.2
+cryptography==2.3
 dateutils==0.6.6
 discord.py==1.0.0a1481+g983be10
 idna==2.7

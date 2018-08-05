@@ -28,28 +28,31 @@ Fun:
   4. Guy Fieri                : $fieri <image>
   5. Bandicam                 : $bandicam <image>
   6. Hacker                   : $hacker <image>
-  7. Apple Keynote               : $keynote <image>
-  8. Sharpen Bomb                : $sharpenbomb <image>
-  9. Caption An Image            : $caption <text> -- Captions the last image posted
-  10. Compliment Someone          : $[compliment|wholesome] <user>
-  11. Eight Ball                  : $8ball <question>*
-  12. Dad Joke                    : $dad
-  13. Insult                      : $insult <user>
-  14. Identify Image              : $identify <image>
-  15. Participation Trophy        : $trophy <user>*
-  16. Wasted (GTA)                : $wasted <image>
-  17. Filthy Frank                : $frank <image>
-  18. MaxMoeFoe                   : $max
-  19. Cat Pic                     : $cat
-  20. Dog Pic                     : $dog
-  21. Change My Mind              : $cmm <text>*
-  22. Reverse Text                : $reverse <text>*
-  23. Zalgo Text                  : $zalgo <text>*
-  24. Flip a coin                 : $coin
-  25. Rock, Paper, Scissors       : $rps <weapon> -- Weapon can be 'rock', 'paper', or 'scissors'. One letter abbreviations are also accepted.
-  26. Make A Decision For You     : $choice [option1] | [option2] -- Seperate options with a |
-  27. Roll Some Dice              : $roll <sides> <count>
-  28. Free Smilies!               : $freesmiley
+  7. Apple Keynote            : $keynote <image>
+  8. Sharpen Bomb             : $sharpenbomb <image>
+  9. Caption An Image         : $caption <text> -- Captions the last image posted
+  10. Compliment Someone      : $[compliment|wholesome] <user>
+  11. Eight Ball              : $8ball <question>*
+  12. Dad Joke                : $dad
+  13. Insult                  : $insult <user>
+  14. Identify Image          : $identify <image>
+  15. Participation Trophy    : $trophy <user>*
+  16. Wasted (GTA)            : $wasted <image>
+  17. Filthy Frank            : $frank <image>
+  18. MaxMoeFoe               : $max
+  19. Cat Pic                 : $cat
+  20. Dog Pic                 : $dog
+  21. Change My Mind          : $cmm <text>*
+  22. Reverse Text            : $reverse <text>*
+  23. Zalgo Text              : $zalgo <text>*
+  24. Flip a coin             : $coin
+  25. Rock, Paper, Scissors   : $rps <weapon>* -- Weapon can be 'rock', 'paper', or 'scissors'. One letter abbreviations are also accepted.
+  26. Make A Decision         : $choice [option1] | [option2] -- Seperate options with a |
+  27. Roll Some Dice          : $roll <sides> <count>
+  28. Free Smilies!           : $freesmiley
+  29. How Many Times Have You : $owo <user>
+      OwO?
+  30. Gandalf Run             : $run <image>
 
 Mr Meme (commands featuring Mr. Meme):
   1. Binoculars                  : $binoculars <image>
@@ -121,6 +124,7 @@ Administration/Moderation:
 
 Server Options:
   1. nsfw_enabled             : Enables or disables nsfw commands.
+  2. dad_mode                 : Enables or disables dad mode.
 
 Bot Management (Must be bot owner to execute):
   1. (^)Eval                     : $eval <code>*
@@ -137,4 +141,4 @@ Bot Management (Must be bot owner to execute):
 Credits:
   - Rapptz: discord.py
   - MorbZ: OpenSansEmoji
-  - Everyone who contributed to all modules used
+  - Everyone who contributed to all modules and libraries used

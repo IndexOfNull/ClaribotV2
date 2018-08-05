@@ -324,7 +324,7 @@ class Misc():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
-	@commands.command()
+	@commands.command(aliases=['uwu'])
 	@commands.guild_only()
 	@commands.cooldown(1,5,commands.BucketType.user)
 	async def owo(self,ctx,user:discord.Member=None):
@@ -334,7 +334,10 @@ class Misc():
 			count = self.data.counters.get_owo_count(user,ctx.guild,default=False)
 			if count is False:
 				count = 0
-			if count or count != 0:
+			if isinstance(count, int):
+				if count == 0:
+					await ctx.send(ctx.cresponses['none'].format(user))
+					return
 				await ctx.send(ctx.cresponses['count'].format(user,count))
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)

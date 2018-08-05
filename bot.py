@@ -93,6 +93,7 @@ class Claribot(commands.AutoShardedBot):
 		self.dev_mode = kwargs.pop('dev_mode',False)
 		self.db_pass = kwargs.pop('dbPass')
 
+
 	async def command_help(self,ctx): #Format help for a command if needed
 		if ctx.invoked_subcommand:
 			cmd = ctx.invoked_subcommand
@@ -124,22 +125,26 @@ class Claribot(commands.AutoShardedBot):
 			self.owner = app_info.owner
 		if (self.dev_mode and message.author != self.owner) or message.author.bot:
 			return
-		owo_success = self.funcs.main.handle_owo(message)
 		prefix = self.data.DB.get_prefix(message=message) #Get the server's prefix
+		handle_owo = True
 		if (message.content.lower().startswith(prefix) or message.content.startswith("<@!{0}>".format(self.user.id))) and message.content.lower() != prefix: #Get if the message starts with the bot's mention or the guilds prefix
 			context = await self.funcs.overides.get_context(message,prefix)
 			blacklisted = self.funcs.main.is_blacklisted(guild=message.guild,message=message,command=context.command)
-			if context.command.name in ("owo") and owo_success:
-				self.data.counters.update_owo_count(message.author,message.guild,add=-1)
+			if context.command.name in ("owo"):
+				handle_owo = False
 			if blacklisted:
 				return
 			await self.funcs.overides.process_commands(message,prefix)
 		else:
-			dads = re.findall(r"(?i)(i'm|i am)\s([^.|!|?]+)",message.content)
-			if len(dads) > 0:
-				dad = dads[0][1]
+			dads = re.findall(r"I'?\s*a?m\s([^.|?|!]+)",message.content,re.IGNORECASE)
+			if len(dads) >= 1:
+				dad = dads[0]
 				if self.data.DB.get_serveropt(message.guild,"dad_mode",default=False,errors=False):
+					if len(dad) > 1900:
+						dad = "Mr. Long Message"
 					await message.channel.send("Hi \"{0}\", I'm {1}.".format(dad,message.guild.me.display_name))
+		if handle_owo:
+			owo_success = self.funcs.main.handle_owo(message)
 
 	async def on_command_error(self,ctx,e): #If a command errors out, error names explain it all.
 		print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
@@ -193,6 +198,11 @@ class Claribot(commands.AutoShardedBot):
 	def die(self): #Gracefully shut the bot down
 		try:
 			self.loop.stop()
+			cursor.close_all()
+			engine.dispose()
+			tasks = asyncio.gather(*asyncio.Task.all_tasks(), loop=self.loop)
+			tasks.cancel()
 			self.loop.run_forever()
+			tasks.exception()
 		except Exception as e:
 			print(e)

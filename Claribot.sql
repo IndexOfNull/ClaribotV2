@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 11, 2018 at 06:22 AM
+-- Generation Time: Aug 04, 2018 at 06:14 AM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -74,6 +74,23 @@ INSERT INTO `bot_data` (`var_name`, `value`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `owo_counter`
+--
+
+CREATE TABLE `owo_counter` (
+  `server_id` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `count` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `owo_counter`
+--
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `personality`
 --
 
@@ -95,6 +112,9 @@ CREATE TABLE `points` (
   `timestamp` bigint(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+--
+-- Dumping data for table `points`
+--
 
 -- --------------------------------------------------------
 
@@ -107,6 +127,9 @@ CREATE TABLE `prefix` (
   `prefix` mediumtext COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+--
+-- Dumping data for table `prefix`
+--
 
 -- --------------------------------------------------------
 
@@ -120,6 +143,10 @@ CREATE TABLE `server_options` (
   `value` mediumtext COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+--
+-- Dumping data for table `server_options`
+--
+
 
 -- --------------------------------------------------------
 
@@ -131,6 +158,9 @@ CREATE TABLE `special_users` (
   `user_id` bigint(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+--
+-- Dumping data for table `special_users`
+--
 
 
 -- --------------------------------------------------------
@@ -148,6 +178,9 @@ CREATE TABLE `user_messages` (
   `type` text COLLATE utf8mb4_bin NOT NULL,
   `been_read` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+--
+-- Dumping data for table `user_messages`
 
 
 -- --------------------------------------------------------

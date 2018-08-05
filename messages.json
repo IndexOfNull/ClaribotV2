@@ -124,7 +124,8 @@
         "none": "There are currently no complaints to report."
       },
       "owo": {
-        "count": "***{0.name}#{0.discriminator}*** has *OwO*'d {1} times."
+        "count": "***{0.name}*** has *OwO*'d {1} times.",
+        "none": "***{0.name}*** has not *OwO*'d... yet."
       }
     }
   },

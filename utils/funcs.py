@@ -233,13 +233,13 @@ class MainFuncs():
 
 	def handle_owo(self,message): #So this will be called every time the bot gets a message to see if it should look for owo or uwu or any unicode variants
 		channel = message.channel
-		guild = channel.guild
-		author = message.author
 		try:
 			if isinstance(channel, discord.TextChannel): #Only process OwO's if they are not said in DM's
-				data = message.content.lower()
-				normalized = unicodedata.normalize('NFKD',data)
-				occurences = re.findall(r"uwu|owo",normalized)
+				guild = channel.guild
+				author = message.author
+				data = message.content
+				normalized = unicodedata.normalize('NFKD',data).encode("ascii","ignore").decode("utf-8")
+				occurences = re.findall(r"uwu|owo",normalized,re.IGNORECASE)
 				count = len(occurences)
 				if count > 2: #Limit to 2 OwO's or UwU's per message
 					 count = 2

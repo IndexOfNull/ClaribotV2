@@ -57,6 +57,30 @@ class Fun():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
+	@commands.command(aliases=['gandalf'])
+	@commands.cooldown(1,5,commands.BucketType.guild)
+	@commands.bot_has_permissions(attach_files=True)
+	async def run(self,ctx,*urls):
+		try:
+			await ctx.trigger_typing()
+			images = await self.get_images(ctx,urls=urls)
+			if images:
+				for url in images:
+					b = await self.bytes_download_images(ctx,url,images)
+					if b is None:
+						continue
+					if b is False:
+						return
+					img = Image.open(b).convert("RGBA")
+					img = img.resize((447,335))
+					g2 = Image.open("resource/img/run.png").convert("RGBA")
+					final = self.imaging.paste(g2,img,offset=(0,422),resample=Image.LANCZOS,bytes=True)
+					await self.funcs.misc.handle_uploads(ctx,final,filename="run.png")
+		except discord.errors.Forbidden as e:
+			await self.funcs.command.handle_error(ctx,e)
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
 	@commands.command(aliases=['cmm'])
 	@commands.cooldown(1,5,commands.BucketType.guild)
 	@commands.bot_has_permissions(attach_files=True)
