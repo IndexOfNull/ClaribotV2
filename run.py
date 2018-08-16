@@ -16,8 +16,11 @@ args = parser.parse_args()
 
 with open('bot.json','r') as r:
     settings = json.loads(r.read())
-    dbPass = settings['dbPass']
-    token = settings['botToken']
+    dbPass = settings.pop('db_pass')
+    db_name = settings.pop('db_name','claribot')
+    db_location = settings.pop('db_ip','localhost')
+    db_username = settings.pop('db_username','claribot_user')
+    token = settings.pop('bot_token')
 
 if args.dev:
     devMode = True
@@ -32,7 +35,7 @@ else:
 #Asyncio stuff
 loop = asyncio.get_event_loop()
 
-bot = Claribot(loop=loop,shard_id=args.shard[0],shard_count=args.shard[1],devMode=devMode,max_messages=10000,dbPass=dbPass,token=token)
+bot = Claribot(loop=loop,shard_id=args.shard[0],shard_count=args.shard[1],db_name=db_name,db_ip=db_location,db_username=db_username,devMode=devMode,max_messages=10000,dbPass=dbPass,token=token)
 
 #Run the bot, and try to close gracefuly on error.
 if __name__ == '__main__':

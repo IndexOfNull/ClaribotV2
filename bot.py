@@ -55,13 +55,11 @@ def get_responses(): #Get all the responses for different personalities and reco
 
 def setup_funcs(bot): #Initialize any variables and systems that we need later.
 	if bot.dev_mode is True:
-		db_name = "Claribot_dev"
-	else:
-		db_name = "Claribot"
+		bot.db_name = bot.db_name + "_dev"
 	db_user = 'claribot0'
 	#Set up database stuff
 	global session
-	engine = create_engine('mysql+pymysql://{0}:{1}@localhost/{2}?charset=utf8mb4'.format(db_user,bot.db_pass,db_name),isolation_level="READ COMMITTED")
+	engine = create_engine('mysql+pymysql://{0}:{1}@{2}/{3}?charset=utf8mb4'.format(bot.db_username,bot.db_pass,bot.db_ip,bot.db_name),isolation_level="READ COMMITTED")
 	session = sessionmaker(bind=engine)
 	bot.mysql = Object()
 	bot.mysql.engine = engine
@@ -92,6 +90,9 @@ class Claribot(commands.AutoShardedBot):
 		self.owner = None #will be automatically retrieved later
 		self.dev_mode = kwargs.pop('dev_mode',False)
 		self.db_pass = kwargs.pop('dbPass')
+		self.db_ip = kwargs.pop('db_ip','localhost')
+		self.db_name = kwargs.pop('db_name','claribot')
+		self.db_username = kwargs.pop('db_username','claribot_user')
 
 
 	async def command_help(self,ctx): #Format help for a command if needed
@@ -136,7 +137,7 @@ class Claribot(commands.AutoShardedBot):
 				return
 			await self.funcs.overides.process_commands(message,prefix)
 		else:
-			dads = re.findall(r"I'?\s*a?m\s([^.|?|!]+)",message.content,re.IGNORECASE)
+			dads = re.findall(r"\bI'?\s*a?m\s([^.|?|!]+)",message.content,re.IGNORECASE)
 			if len(dads) >= 1:
 				dad = dads[0]
 				if self.data.DB.get_serveropt(message.guild,"dad_mode",default=False,errors=False):
