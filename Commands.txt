@@ -47,7 +47,7 @@ Fun:
   23. Zalgo Text              : $zalgo <text>*
   24. Flip a coin             : $coin
   25. Rock, Paper, Scissors   : $rps <weapon>* -- Weapon can be 'rock', 'paper', or 'scissors'. One letter abbreviations are also accepted.
-  26. Make A Decision         : $choice [option1] | [option2] -- Seperate options with a |
+  26. Make A Decision         : $choose [option1] | [option2] -- Seperate options with a |
   27. Roll Some Dice          : $roll <sides> <count>
   28. Free Smilies!           : $freesmiley
   29. How Many Times Have You : $owo <user>
@@ -59,6 +59,7 @@ Fun:
   34. How many IQ?            : $iq <user>
   35. Victory Royale          : $victory <image>
   36. Spooky Scary Skeletons  : $spooky (October only)
+  37. Banana Man              : $banana <text>*
 
 Mr Meme (commands featuring Mr. Meme):
   1. Binoculars                  : $binoculars <image>

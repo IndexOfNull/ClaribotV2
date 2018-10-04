@@ -528,7 +528,10 @@ class DB():
 			users = []
 			if results:
 				for user in results:
-					users.append(self.bot.get_user(user['user_id']))
+					if self.bot.get_user(user['user_id']):
+						users.append(self.bot.get_user(user['user_id']))
+					else:
+						users.append(user['user_id'])
 				return users
 			return []
 		except:

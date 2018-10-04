@@ -60,6 +60,29 @@ class Fun():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
+	@commands.command(aliases=['banana'])
+	@commands.cooldown(1,5,commands.BucketType.guild)
+	@commands.bot_has_permissions(attach_files=True)
+	async def bananaman(self,ctx,*,text:str):
+		try:
+				img = Image.open("resource/img/bananaman.jpg").convert("RGB")
+				iw,ih = img.size
+				font = ImageFont.truetype("resource/font/OpenSansEmoji.ttf",32)
+				lines = self.imaging.text_wrap(text,font=font,max_pixels=430,wrap="word")
+				d = ImageDraw.Draw(img)
+				yoffset = 0
+				for line in lines:
+					lw,lh = font.getsize(line)
+					d.text((480,int(163+yoffset)),line,font=font,fill="#000")
+					yoffset+=int(lh)
+				#img.paste(blackbox,blackbox_offset,blackbox)
+				final = BytesIO()
+				img.save(final,"JPEG")
+				final.seek(0)
+				await self.funcs.misc.handle_uploads(ctx,final,filename="bananaman.jpg")
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
 	@commands.command(aliases=['gandalf'])
 	@commands.cooldown(1,5,commands.BucketType.guild)
 	@commands.bot_has_permissions(attach_files=True)
@@ -224,6 +247,8 @@ class Fun():
 								img = "resource/img/spooky/nsfw.gif"
 							else:
 								img = "resource/img/spooky/{0}.gif".format(int(randint(100,1300)/100))
+						else:
+							img = "resource/img/spooky/{0}.gif".format(int(randint(100,1300)/100))
 					else:
 						img = "resource/img/spooky/{0}.gif".format(int(randint(100,1300)/100))
 				await ctx.send(file=discord.File(img))
@@ -643,7 +668,7 @@ class Fun():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
-	@commands.command()
+	@commands.command(aliases=["decide"])
 	@commands.cooldown(1,3,commands.BucketType.user)
 	async def choose(self,ctx,*,choices:str):
 		try:

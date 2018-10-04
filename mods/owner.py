@@ -90,7 +90,12 @@ class Owner():
 					final = "None"
 				else:
 					for user in users:
-						final += str2.format(user)
+						if isinstance(user, discord.User):
+							final += str2.format(user)
+						elif isinstance(user, int):
+							final += "+ Unknown User ({0})".format(user)
+						else:
+							final += "+ Unknown User".format(user)
 				await ctx.send(str.format(final))
 			else:
 				if users is False:
