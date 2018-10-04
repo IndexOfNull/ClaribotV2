@@ -39,7 +39,7 @@ Fun:
   15. Participation Trophy    : $trophy <user>*
   16. Wasted (GTA)            : $wasted <image>
   17. Filthy Frank            : $frank <image>
-  18. MaxMoeFoe               : $max
+  18. MaxMoeFoe               : $max <image>
   19. Cat Pic                 : $cat
   20. Dog Pic                 : $dog
   21. Change My Mind          : $cmm <text>*
@@ -53,6 +53,12 @@ Fun:
   29. How Many Times Have You : $owo <user>
       OwO?
   30. Gandalf Run             : $run <image>
+  31. Steal from Reddit       : $reddit <subreddit> <query> (will get NSFW results if used in an NSFW channel)
+  32. Meme                    : $meme
+  33. Bad Meme                : $badmeme
+  34. How many IQ?            : $iq <user>
+  35. Victory Royale          : $victory <image>
+  36. Spooky Scary Skeletons  : $spooky (October only)
 
 Mr Meme (commands featuring Mr. Meme):
   1. Binoculars                  : $binoculars <image>
@@ -60,7 +66,7 @@ Mr Meme (commands featuring Mr. Meme):
 
 Image Manipulation:
   1. Invert Colors          : $invert <image>
-  2. Solarize               : $solarize <image> *Inverts colors based on a random threshold
+  2. Solarize               : $solarize <image>
   3. Flip Image             : $flip <image>
   4. Rotate 90 Degrees      : $rotate <image>
   5. Sharpen Image          : $sharpen <image>
@@ -83,7 +89,7 @@ Misc:
   4. User Avatar                 : $avatar <user> -- You can also type "server" to get the server icon
   5. Random Number               : $random <min>* <max>*
   6. Upside Down Text            : $upsidedown <text>*
-  7. Cryptocurrency Conversion   : $crypto <from> <to> -- Converts 1 of "from" into the value of "to" (eg. 1 BTC -> 6000 USD)
+  7. Cryptocurrency Conversion   : $crypto <from> <to> -- Converts 1 of "from" into the currency of "to" (eg. 1 BTC -> 6000 USD)
 
 
 NSFW (Must be in a NSFW channel):
@@ -130,7 +136,7 @@ Bot Management (Must be bot owner to execute):
   1. (^)Eval                     : $eval <code>*
   2. (^)Change Playing Status    : $playing <status>*
   3. (^)Bot Avatar               : $botavatar <image>
-  4. (^)Manage SpecialBot Perms  : $special [add|remove|<user>]
+  4. (^)Manage SpecialBot Perms  : $special [add|remove] <user>
     4.1 (^)Give SpecialBot Perms   : $special add <user>*
     4.2 (^)Remove SpecialBot Perms : $special remove <user>*
     4.3 (^)List SpecialBot Users   : $special list

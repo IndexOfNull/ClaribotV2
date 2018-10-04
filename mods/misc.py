@@ -17,6 +17,10 @@ except:
 	print(Fore.MAGENTA + 'Something went wrong while importing pyzbar. Please make sure you have the zbar shared libraries installed.')
 	pyzbar_imported = False
 
+from utils.api import reddit
+
+import traceback
+
 class Misc():
 
 	def __init__(self,bot):
@@ -341,6 +345,27 @@ class Misc():
 				await ctx.send(ctx.cresponses['count'].format(user,count))
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
+
+	@commands.command()
+	@commands.cooldown(1,5,commands.BucketType.user)
+	async def reddit(self,ctx,subreddit:str,*,query:str=""):
+		try:
+			await ctx.trigger_typing()
+			r = reddit.Reddit()
+			results = await r.search(q=query,is_video="false",subreddit=subreddit,domain="i.redd.it,i.imgur.com",over_18=("true" if ctx.channel.is_nsfw() else "false"))
+			if len(results) <= 0:
+				await ctx.send(ctx.cresponses['no_results'])
+				return
+			if results:
+				num = randint(0,len(results)-1)
+				result = results[num]
+				embed = self.funcs.misc.get_image_embed(result.full_link,result.url)
+				embed.set_footer(text="Posted by {0} on r/{1}.".format(result.author,result.subreddit))
+				await ctx.send(embed=embed)
+			else:
+				await ctx.send(ctx.cresponses['no_results'])
+		except Exception as e:
+			traceback.print_exc()
 
 def setup(bot):
 	bot.add_cog(Misc(bot))

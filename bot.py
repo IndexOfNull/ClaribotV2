@@ -131,8 +131,9 @@ class Claribot(commands.AutoShardedBot):
 		if (message.content.lower().startswith(prefix) or message.content.startswith("<@!{0}>".format(self.user.id))) and message.content.lower() != prefix: #Get if the message starts with the bot's mention or the guilds prefix
 			context = await self.funcs.overides.get_context(message,prefix)
 			blacklisted = self.funcs.main.is_blacklisted(guild=message.guild,message=message,command=context.command)
-			if context.command.name in ("owo"):
-				handle_owo = False
+			if context.command:
+				if context.command.name in ("owo","uwu"):
+					handle_owo = False
 			if blacklisted:
 				return
 			await self.funcs.overides.process_commands(message,prefix)
@@ -148,7 +149,7 @@ class Claribot(commands.AutoShardedBot):
 			owo_success = self.funcs.main.handle_owo(message)
 
 	async def on_command_error(self,ctx,e): #If a command errors out, error names explain it all.
-		print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
+		#print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
 		if isinstance(e, commands.CommandNotFound):
 			return
 		elif isinstance(e, commands.CommandOnCooldown):
@@ -185,9 +186,23 @@ class Claribot(commands.AutoShardedBot):
 		elif isinstance(e, commands.MissingRequiredArgument) or isinstance(e, commands.BadArgument):
 			await self.command_help(ctx)
 		else:
-			print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
-			await ctx.send("Command Error ({0}): `{1}`".format(type(e).__name__,e))
+			#print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
+			#await ctx.send("Command Error ({0}): `{1}`".format(type(e).__name__,e))
+			await self.funcs.command.handle_error(ctx,e)
 		ctx.command.reset_cooldown(ctx)
+
+	async def on_guild_join(self,guild):
+		channel_names = ["entry","general","general-chat","general2","general-2","general-chat-2"]
+		exclude = ["rules","announcements","major-announcements","important-announcements"]
+		message = "Hi there!\n\nMy name is Claribot, and I'm here to add some fun features to your server! I have a variety of commands that can manipulate images, make decisions, count how many times you have said \"OwO\", and much more.\n\nMy default command prefix is `$`, but you can always change it with $prefix."
+		for channel in guild.channels:
+			if channel.name in channel_names and not channel.name in exclude:
+				await channel.send(message)
+				return
+		for channel in guild.channels:
+			if not channel.name in exclude:
+				await channel.send(message)
+				return
 
 	@property
 	def get_cursor(self): #DB stuff

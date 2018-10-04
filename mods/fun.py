@@ -12,6 +12,9 @@ import json
 import traceback
 
 from utils import checks
+from utils.api import reddit
+
+from time import strftime
 
 class Fun():
 
@@ -176,6 +179,58 @@ class Fun():
 			await self.funcs.command.handle_error(ctx,e)
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
+
+	@commands.command(aliases=['victoryroyale'])
+	@commands.bot_has_permissions(attach_files=True)
+	@commands.cooldown(1,5,commands.BucketType.guild)
+	async def victory(self,ctx,*urls):
+		try:
+			await ctx.trigger_typing()
+			images = await self.get_images(ctx,urls=urls)
+			if images:
+				for url in images:
+					b = await self.bytes_download_images(ctx,url,images)
+					if b is None:
+						continue
+					if b is False:
+						return
+					img = Image.open(b).convert("RGBA")
+					vr = Image.open('resource/img/victoryroyale.png').convert('RGBA')
+					vr.thumbnail((int(img.size[0]/1.5), int(img.size[1]/6)))
+					pasted = self.imaging.paste(img,vr,offset=(int(img.size[0]/2-vr.size[0]/2),int(img.size[1]/4)),bytes=True)
+					await self.bot.funcs.misc.handle_uploads(ctx,pasted,filename="victoryroyale.png")
+		except discord.errors.Forbidden as e:
+			await self.funcs.command.handle_error(ctx,e)
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
+	if strftime("%B") == "October":
+
+		@commands.command(aliases=['skeleton','spook'])
+		@commands.bot_has_permissions(attach_files=True)
+		@commands.cooldown(1,5,commands.BucketType.guild)
+		async def spooky(self,ctx):
+			try:
+				await ctx.trigger_typing()
+				if randint(1,20) == 1:
+					if randint(1,2) == 1:
+						img = "resource/img/spooky/papyrus.png"
+					else:
+						img = "resource/img/spooky/sans.jpg"
+				else:
+					if isinstance(ctx.channel, discord.TextChannel):
+						if ctx.channel.is_nsfw():
+							if randint(1,20) == 1:
+								img = "resource/img/spooky/nsfw.gif"
+							else:
+								img = "resource/img/spooky/{0}.gif".format(int(randint(100,1300)/100))
+					else:
+						img = "resource/img/spooky/{0}.gif".format(int(randint(100,1300)/100))
+				await ctx.send(file=discord.File(img))
+			except discord.errors.Forbidden as e:
+				await self.funcs.command.handle_error(ctx,e)
+			except Exception as e:
+				await self.funcs.command.handle_error(ctx,e)
 
 	@commands.command(aliases=['loganpaul'])
 	@commands.bot_has_permissions(attach_files=True)
@@ -692,6 +747,64 @@ class Fun():
 		except Exception as e:
 			print("oh no, evan died")
 
+	@commands.command()
+	@commands.cooldown(1,3,commands.BucketType.guild)
+	async def meme(self,ctx):
+		try:
+			await ctx.trigger_typing()
+			r = reddit.Reddit()
+			subreddits = ("dankmemes","meirl","wholesomememes")
+			subreddit = subreddits[randint(0,len(subreddits)-1)]
+			results = await r.search(q="",is_video="false",subreddit=subreddit,domain="i.redd.it,i.imgur.com",over_18="false")
+			if len(results) <= 0:
+				await ctx.send(ctx.cresponses['no_results'])
+				return
+			if results:
+				num = randint(0,len(results)-1)
+				result = results[num]
+				embed = self.funcs.misc.get_image_embed(result.full_link,result.url)
+				embed.set_footer(text="Posted by {0} on r/{1}.".format(result.author,result.subreddit))
+				await ctx.send(embed=embed)
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
+	@commands.command()
+	@commands.cooldown(1,3,commands.BucketType.guild)
+	async def badmeme(self,ctx):
+		try:
+			await ctx.trigger_typing()
+			r = reddit.Reddit()
+			subreddits = ("comedycemetery","comedynecrophilia")
+			subreddit = subreddits[randint(0,len(subreddits)-1)]
+			results = await r.search(q="",is_video="false",subreddit=subreddit,domain="i.redd.it,i.imgur.com",over_18="false")
+			if len(results) <= 0:
+				await ctx.send(ctx.cresponses['no_results'])
+				return
+			if results:
+				num = randint(0,len(results)-1)
+				result = results[num]
+				embed = self.funcs.misc.get_image_embed(result.full_link,result.url)
+				embed.set_footer(text="Posted by {0} on r/{1}.".format(result.author,result.subreddit))
+				await ctx.send(embed=embed)
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
+	@commands.command()
+	@commands.cooldown(1,3,commands.BucketType.user)
+	async def iq(self,ctx,user:discord.User=None):
+		if user is None:
+			user = ctx.author
+		try:
+			rand = randint(0,300)
+			if rand >= 230:
+				resp = ctx.cresponses['over230']
+			else:
+				resp = ctx.cresponses['response']
+			resp = resp.format(user,rand)
+			embed = discord.Embed(title="IQ Counter",type="rich",color=discord.Color.purple(),description=resp)
+			await ctx.send(embed=embed)
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
 
 def setup(bot):
 	bot.add_cog(Fun(bot))

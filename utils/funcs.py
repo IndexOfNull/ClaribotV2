@@ -19,6 +19,8 @@ from dateutil import tz
 
 import unicodedata
 
+import sys, os, traceback
+
 class Funcs():
 
 	def __init__(self,bot):
@@ -45,7 +47,7 @@ class HTTP():
 				async with self.session.post(url,headers=headers,data=params) as resp:
 					data = (await resp.read()).decode("utf-8")
 					if retjson:
-						data = json.loads(data)
+						data = (await resp.json())
 					return data
 		except asyncio.TimeoutError:
 			return False
@@ -59,7 +61,7 @@ class HTTP():
 			with async_timeout.timeout(10):
 				async with self.session.get(url,headers=headers) as resp:
 					if retjson:
-						data = json.loads(await resp.text())
+						data = (await resp.json())
 					else:
 						data = await resp.read()
 					return data
@@ -221,8 +223,16 @@ class CommandFuncs():
 			print(e.text)
 			await ctx.send(ctx.gresponses['forbidden_upload'])
 			return
-		await ctx.send("`{0}`\nIf this problem persists, you may consider sending a complaint with $complain".format(e))
-		print(Fore.RED + e + Style.RESET_ALL)
+		exc_type, exc_value, exc_traceback = sys.exc_info()
+		eText = e
+		if exc_traceback:
+			f = exc_traceback.tb_frame
+			lineno = exc_traceback.tb_lineno
+			filename = f.f_code.co_filename.split("/")[-1]
+			eText = "{0}\n\nFile: {1}\nLine: {2}".format(e,filename,lineno)
+		message = "Error occurred during execution: ```py\n{0}\n```\nIf this problem persists, please contact the owner, or open an issue on the ClaribotV2 GitHub page.".format(eText)
+		await ctx.send(message)
+		print(Fore.RED + ("-----Exception Report-----\n" + "".join(traceback.format_exception(exc_type, exc_value,exc_traceback)) + "--------------------------\n") + Style.RESET_ALL)
 
 class MainFuncs():
 
@@ -239,7 +249,7 @@ class MainFuncs():
 				author = message.author
 				data = message.content
 				normalized = unicodedata.normalize('NFKD',data).encode("ascii","ignore").decode("utf-8")
-				occurences = re.findall(r"uwu|owo",normalized,re.IGNORECASE)
+				occurences = re.findall(r"uwu|owo|uwo|owu",normalized,re.IGNORECASE)
 				count = len(occurences)
 				if count > 2: #Limit to 2 OwO's or UwU's per message
 					 count = 2
@@ -332,7 +342,7 @@ class Misc():
 			if len(m.attachments) > 0:
 				last_attachment = m.attachments[0].url
 			elif len(m.embeds) > 0:
-				last_attachment = m.embeds[0].url
+				last_attachment = m.embeds[0].image.url
 			if last_attachment:
 				if type:
 					t = await self.get_image_mime(last_attachment,type=True)

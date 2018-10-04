@@ -7,6 +7,7 @@ from random import randint
 import hashlib
 
 from utils.api import fa, da, nekos
+from utils.naughtyboi import crawl
 
 class NSFW():
 
@@ -14,6 +15,7 @@ class NSFW():
         self.bot = bot
         self.funcs = self.bot.funcs
         self.hash = '2822cae0a9d541e7291ba325c7b7a7ec'
+        self.cursor = self.bot.mysql.cursor
 
     @commands.command(aliases=['fa','furry2'])
     @checks.AdvChecks.nsfw()
@@ -102,9 +104,15 @@ class NSFW():
         neko = nekos.Nekos()
         if tags:
             results = await neko.search(tags=tags,nsfw=naughtyboi)
+            if not results:
+                await ctx.send(ctx.gresponses['generic_no_results'])
+                return
             result = results[randint(0,len(results)-1)]
         else:
             results = await neko.random(count=2,nsfw=naughtyboi)
+            if not results:
+                await ctx.send(ctx.gresponses['generic_no_results'])
+                return
             result = results[0]
         img = result.get_image_url()
         embed = self.funcs.misc.get_image_embed(result.source,img)
@@ -122,6 +130,16 @@ class NSFW():
     @checks.AdvChecks.nsfw()
     async def deviantart(self,ctx,*,query=''):
         await self.do_da(ctx,query)
+
+    """@commands.command()
+    @checks.AdvChecks.is_bot_owner()
+    @commands.cooldown(1,10000)
+    async def crawl(self,ctx):
+        try:
+            crawler = crawl.TumblrCrawler(self.cursor)
+            await crawler.crawl("http://axellycan.tumblr.com/",1000) #Just some weird bizzare tumblr I found, may as well use it as an entry point to find more weird bizzare stuff.
+        except Exception as e:
+            await self.funcs.command.handle_error(ctx,e)"""
 
 def setup(bot):
     bot.add_cog(NSFW(bot))

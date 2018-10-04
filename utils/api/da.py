@@ -6,32 +6,14 @@ import xml.etree.ElementTree as ET
 
 class HTTP():
 
-	async def post(self,url,**kwargs):
-		retjson = kwargs.pop('json',False)
-		headers = kwargs.pop("headers",{})
-		params = kwargs.pop("params",{})
-		try:
-			with async_timeout.timeout(10):
-				async with aiohttp.ClientSession() as session:
-					async with session.post(url,headers=headers,data=params) as resp:
-						data = (await resp.read()).decode("utf-8")
-						if retjson:
-							data = json.loads(data)
-						return data
-		except asyncio.TimeoutError:
-			return False
-		except Exception as e:
-			return False
-
 	async def get(self,url,**kwargs):
 		retjson = kwargs.pop('json',False)
-		headers = kwargs.pop("headers",{})
 		try:
 			with async_timeout.timeout(10):
 				async with aiohttp.ClientSession() as session:
-					async with session.get(url,headers=headers) as resp:
+					async with session.get(url,**kwargs) as resp:
 						if retjson:
-							data = json.loads(await resp.text())
+							data = (await resp.json())
 						else:
 							data = await resp.read()
 						return data

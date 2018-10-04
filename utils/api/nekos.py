@@ -30,7 +30,7 @@ class HTTP():
 				async with aiohttp.ClientSession() as session:
 					async with session.get(url,headers=headers) as resp:
 						if retjson:
-							data = json.loads(await resp.text())
+							data = (await resp.json())
 						else:
 							data = await resp.read()
 						return data
