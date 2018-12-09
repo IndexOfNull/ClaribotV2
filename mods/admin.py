@@ -143,13 +143,38 @@ class Admin():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
-	@commands.group(invoke_without_command=True)
+	@commands.group(invoke_without_command=True,aliases=['warnings'])
 	@commands.cooldown(1,10,commands.BucketType.guild)
 	@commands.guild_only()
 	@checks.mod_or_perm(manage_messages=True)
-	async def warning(self,ctx):
+	async def warning(self,ctx,user:discord.Member):
 		if ctx.invoked_subcommand is None:
-			await ctx.send("Valid subcommands are `get, delete, history`")
+			try:
+				await ctx.trigger_typing()
+				msg = "```fix\nWarning List for {0.name}#{0.discriminator} on \"{1.guild.name}\" \n========================================\n[ID]         [Date]                    [Reason]\n{2}\n```"
+				msg2 = ""
+				warnings,otherwarnings = self.data.DB.get_user_warnings(ctx.guild,user,others=True)
+				limit = 30
+				for i,warning in enumerate(warnings):
+					if i > limit:
+						break
+					timestamp = self.funcs.time.seconds_to_utc(warning['timestamp'])
+					reason = warning['reason']
+					if len(warning['reason']) > 30:
+						reason = warning['reason'][:-30] + "..."
+					msg2 += "[{0}] {1} | {2} | {3}\n".format(i+1,warning['issue_id'],self.funcs.time.get_formatted_time(timestamp),reason)
+				if len(warnings) == 0:
+					msg2 += "No warnings to report\n\n"
+				if otherwarnings:
+					msg2 += "========================================\n{0}You can view more information about these warnings with $warning get <id> (must be used in a server where the warning was issued)".format("! This user has warnings from other servers on record !\n\n")
+				else:
+					msg2 += "========================================\nYou can view more information about warnings with $warning get <id> (must be used in a server where the warning was issued)"
+				msg = msg.format(user,ctx,msg2)
+				await ctx.author.send(msg)
+			except Exception as e:
+				await self.funcs.command.handle_error(ctx,e)
+		elif not ctx.invoked_subcommand in ('get','delete'):
+			await ctx.send("Valid subcommands are `get, delete`")
 
 	@warning.command()
 	@commands.cooldown(1,10,commands.BucketType.guild)
@@ -194,14 +219,14 @@ class Admin():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
-	@warning.command()
+	"""@warning.command()
 	@commands.cooldown(1,10,commands.BucketType.guild)
 	@commands.guild_only()
 	@checks.mod_or_perm(manage_messages=True)
 	async def list(self,ctx,user:discord.Member):
 		try:
 			await ctx.trigger_typing()
-			msg = "```fix\nWarning List For {0.name}#{0.discriminator}\n========================================\n{1}\n```"
+			msg = "```fix\nWarning List for {0.name}#{0.discriminator} on \"{1.guild.name}\" \n========================================\n[ID]         [Date]                    [Reason]\n{2}\n```"
 			msg2 = ""
 			warnings,otherwarnings = self.data.DB.get_user_warnings(ctx.guild,user,others=True)
 			limit = 30
@@ -209,17 +234,21 @@ class Admin():
 				if i > limit:
 					break
 				timestamp = self.funcs.time.seconds_to_utc(warning['timestamp'])
-				msg2 += "[{0}] {1} | {2}\n".format(i+1,warning['issue_id'],self.funcs.time.get_formatted_time(timestamp))
+				reason = warning['reason']
+				if len(warning['reason']) > 30:
+					reason = warning['reason'][:-30] + "..."
+				msg2 += "[{0}] {1} | {2} | {3}\n".format(i+1,warning['issue_id'],self.funcs.time.get_formatted_time(timestamp),reason)
 			if len(warnings) == 0:
 				msg2 += "No warnings to report\n\n"
 			if otherwarnings:
 				msg2 += "========================================\n{0}You can view more information about these warnings with $warning get <id>".format("! This user has warnings from other servers on record !\n\n")
 			else:
 				msg2 += "========================================\nYou can view more information about warnings with $warning get <id>"
-			msg = msg.format(user,msg2)
+			msg = msg.format(user,ctx,msg2)
 			await ctx.author.send(msg)
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
+	"""
 
 
 

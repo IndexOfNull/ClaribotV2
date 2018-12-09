@@ -1,11 +1,13 @@
 
-   ___  ____                ___
- .'   \ /   \       _   __ /   \
- |      |,_-<       |   /    _-'
- |      |    `      `  /    /
-  `.__, `----'       \/    /___,
+   _____    ____                ___
+  / ____|  |  _ \              |__ \
+ | |       | |_) |     __   __    ) |
+ | |       |  _ <      \ \ / /   / /
+ | |____   | |_) |      \ V /   / /_
+  \_____|  |____/        \_/   |____|
 
-  CB v2, by Dk
+
+  CBv2, by Dk
   Claribot#5331 (399081551616278533)
 
 * - Required Argument
@@ -60,10 +62,7 @@ Fun:
   35. Victory Royale          : $victory <image>
   36. Spooky Scary Skeletons  : $spooky (October only)
   37. Banana Man              : $banana <text>*
-
-Mr Meme (commands featuring Mr. Meme):
-  1. Binoculars                  : $binoculars <image>
-  [REDACTED]
+  38. PP                      : $pp <user>
 
 Image Manipulation:
   1. Invert Colors          : $invert <image>
@@ -75,6 +74,12 @@ Image Manipulation:
   7. Posterize Image        : $posterize <image>
   8. Grayscale Image        : $grayscale <image>
   9. Mirror Image           : $mirror <image>
+  10. Color Palette         : $palette <image>
+  11. ($) VSplit            : $vsplit <segments> <image> -- Splits images into n vertical parts (5 part limit)
+
+Face Commands:
+  1. Deal with it           : $dwi <image>
+  2. Face Crop              : $facecrop <image>
 
 Misc:
   1. Color                       : $color [hex|r] <g> <b> -- Will get random color if hex or rgb input is invalid or missing.
@@ -94,10 +99,13 @@ Misc:
 
 
 NSFW (Must be in a NSFW channel):
-  1.($)FurAffinity            : $fa <query> -- Supports FurAffinity's search syntax.
-  2.Furry                     : $furry <query> -- Supports DeviantArt's search syntax.
-  3.DeviantArt                : $da <query> -- Supports DeviantArt's search syntax
-  4.Catgirl                   : $catgirl <tags> -- Tags are comma seperated
+  1. ($)FurAffinity            : $fa <query> -- Supports FurAffinity's search syntax.
+  2. Furry                     : $furry <query> -- Supports DeviantArt's search syntax.
+  3. DeviantArt                : $da <query> -- Supports DeviantArt's search syntax
+  4. Catgirl                   : $catgirl <tags> -- Tags are comma seperated
+  5. Fucked Up Roulette        : $roulette -- Get a random image that may or may not be nsfw. The bot doesn't know, I don't know, only you will know when you use this (prepare the eye bleach).
+    (Disabled)
+  6. Oh Fuck Go Back           : $ohfuckgoback -- Deletes the last recent message from the bot (in an NSFW channel), useful for cleaning up any really bad messes.
 
 Utility/Information:
   1. (++)Server Prefix            : $prefix <prefix>
@@ -114,11 +122,11 @@ Utility/Information:
   7. File A Complaint             : $complaint <complaint>* -- Please be nice and constructive, so that we know what's wrong, please do not spam this.
 
 Administration/Moderation:
-  1. (++)Ban By User ID           : $idban <id> -- (can ban users that are not on your server)
+  1. (++)Ban By User ID           : $idban <id> -- (can ban users that are not in your server)
   2. (+)Send a warning            : $warn <user>* <reason>*
-    2.1 (+)List Of User Warnings  : $warning list <user>*
-    2.2 (+)Get A Warning          : $warning get <id>*
-    2.3 (+)Delete A Warning       : $warning del <id>*
+    2.1 (+)List Of User Warnings    : $warning list <user>*
+    2.2 (+)Get A Warning            : $warning get <id>*
+    2.3 (+)Delete A Warning         : $warning del <id>*
   3. (+)Delete Messages           : $prune <max_messages>* <user>
     3.1 (+)From Bots                : $prune bots <max_messages>*
     3.2 (+)With Attachments         : $prune attachments <max_messages>*
@@ -142,7 +150,7 @@ Bot Management (Must be bot owner to execute):
     4.2 (^)Remove SpecialBot Perms : $special remove <user>*
     4.3 (^)List SpecialBot Users   : $special list
     4.4 (^)Check User's Perms      : $special <user>
-  5. Read Suggestions              : $suggestions <max> <id>
+  5. Read Suggestions            : $suggestions <max> <id>
 
 
 Credits:

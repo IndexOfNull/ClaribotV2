@@ -144,7 +144,7 @@ class Misc():
 		try:
 			await ctx.trigger_typing()
 			embed = discord.Embed(title="User Avatar",type="rich",color=discord.Color.teal(),description="{0.name}#{0.discriminator}".format(user))
-			embed.set_image(url=user.avatar_url)
+			embed.set_image(url=user.avatar_url_as(static_format="png"))
 			await ctx.send(embed=embed)
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)

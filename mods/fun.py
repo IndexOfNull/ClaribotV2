@@ -33,6 +33,7 @@ class Fun():
 	@commands.bot_has_permissions(attach_files=True)
 	async def caption(self,ctx,*,text:str):
 		try:
+			await ctx.trigger_typing()
 			images = await self.get_images(ctx,urls=None,limit=1)
 			if images:
 				image = images[0]
@@ -65,6 +66,7 @@ class Fun():
 	@commands.bot_has_permissions(attach_files=True)
 	async def bananaman(self,ctx,*,text:str):
 		try:
+				await ctx.trigger_typing()
 				img = Image.open("resource/img/bananaman.jpg").convert("RGB")
 				iw,ih = img.size
 				font = ImageFont.truetype("resource/font/OpenSansEmoji.ttf",32)
@@ -76,9 +78,7 @@ class Fun():
 					d.text((480,int(163+yoffset)),line,font=font,fill="#000")
 					yoffset+=int(lh)
 				#img.paste(blackbox,blackbox_offset,blackbox)
-				final = BytesIO()
-				img.save(final,"JPEG")
-				final.seek(0)
+				final = self.imaging.toBytes(img,"JPEG")
 				await self.funcs.misc.handle_uploads(ctx,final,filename="bananaman.jpg")
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
@@ -150,33 +150,7 @@ class Fun():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
-	@commands.command(hidden=True)
-	@commands.bot_has_permissions(attach_files=True)
-	@commands.cooldown(1,5,commands.BucketType.guild)
-	async def binoculars(self,ctx,*urls):
-		try:
-			await ctx.trigger_typing()
-			images = await self.get_images(ctx,urls=urls)
-			if images:
-				for url in images:
-					b = await self.bytes_download_images(ctx,url,images)
-					if b is None:
-						continue
-					if b is False:
-						return
-					img = Image.open(b).convert("RGBA")
-					mask = Image.open('resource/img/binoculousmask.png').convert("L")
-					h = Image.open('resource/img/binoculous.png').convert('RGBA')
-					img = img.resize(mask.size,resample=Image.BILINEAR)
-					img.putalpha(mask)
-					h.paste(img,(650,862),img)
-					h.paste(img,(214,907),img)
-					final = self.imaging.toBytes(h)
-					await self.bot.funcs.misc.handle_uploads(ctx,final,filename="binoculous.png")
-		except discord.errors.Forbidden as e:
-			await self.funcs.command.handle_error(ctx,e)
-		except Exception as e:
-			await self.funcs.command.handle_error(ctx,e)
+
 
 	@commands.command(aliases=['keynote'])
 	@commands.bot_has_permissions(attach_files=True)
@@ -681,6 +655,20 @@ class Fun():
 
 	@commands.command()
 	@commands.cooldown(1,3,commands.BucketType.user)
+	async def pp(self,ctx,user:discord.Member=None):
+		try:
+			text = "has"
+			if not user:
+				user = ctx.message.author
+				text = ", you have"
+			sizes = ('small','large','very large','tiny','no',str(randint(0,69)))
+			emb = discord.Embed(title="PP Guesser 9000",type="rich",color=discord.Color.gold(),description=user.mention+text+" `"+random.sample(sizes,1)[0]+" pp`")
+			await ctx.send(embed=emb)
+		except Exception as e:
+			await self.funcs.command.handle_Error(ctx,e)
+
+	@commands.command()
+	@commands.cooldown(1,3,commands.BucketType.user)
 	async def coin(self,ctx):
 		try:
 			await ctx.trigger_typing()
@@ -753,24 +741,6 @@ class Fun():
 			await ctx.send(embed=embed)
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
-
-	@commands.command(hidden=True)
-	@commands.cooldown(1,3,commands.BucketType.guild)
-	async def whatdidyousayaboutmrmeme(self,ctx):
-		try:
-			await ctx.send(file=discord.File("resource/img/evano.png"))
-			await ctx.send("WHAT DID YOU SAY ABOUT MR. MEME!")
-		except Exception as e:
-			print("oh no, evan died")
-
-	@commands.command(hidden=True)
-	@commands.cooldown(1,3,commands.BucketType.guild)
-	async def urmomsnotalawyer(self,ctx):
-		try:
-			await ctx.send(file=discord.File("resource/img/urmomsnotalawyer.png"))
-			await ctx.send("ur moms not a lawyer.")
-		except Exception as e:
-			print("oh no, evan died")
 
 	@commands.command()
 	@commands.cooldown(1,3,commands.BucketType.guild)

@@ -3,3 +3,5 @@ Pipfile
 Pipfile.lock
 *.pyc
 .DS_Store
+mods/mrmeme.py
+resource/img/mrmeme/

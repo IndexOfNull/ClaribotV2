@@ -20,6 +20,8 @@ from utils import imaging
 from utils import funcs
 from utils import checks
 
+#from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
 modules = [ #What "cogs" to load up
 	"mods.management",
 	"mods.fun",
@@ -27,8 +29,12 @@ modules = [ #What "cogs" to load up
 	"mods.owner",
 	"mods.nsfw",
 	"mods.image",
-	"mods.admin"
+	"mods.admin",
+	"mods.face"
 ]
+
+if os.path.isfile("mods/mrmeme.py"):
+	modules.append("mods.mrmeme")
 
 class Object(object): pass
 
@@ -54,8 +60,8 @@ def get_responses(): #Get all the responses for different personalities and reco
 	return responses
 
 def setup_funcs(bot): #Initialize any variables and systems that we need later.
-	if bot.dev_mode is True:
-		bot.db_name = bot.db_name + "_dev"
+	#if bot.dev_mode is True:
+	#	bot.db_name = bot.db_name + "_dev"
 	db_user = 'claribot0'
 	#Set up database stuff
 	global session
@@ -71,6 +77,7 @@ def setup_funcs(bot): #Initialize any variables and systems that we need later.
 	bot.responses = get_responses()
 	bot.AdvChecks = checks.AdvChecks(bot) #this is a bit of a cheat/hack to pass the bot instance to the checks.py file, but it works!
 	bot.remove_command("help") #We will replace it with our own help command later
+	bot.fatokens = ()
 
 class Claribot(commands.AutoShardedBot):
 
@@ -83,6 +90,7 @@ class Claribot(commands.AutoShardedBot):
 			self.loop = kwargs.pop('loop', asyncio.get_event_loop())
 			asyncio.get_child_watcher().attach_loop(self.loop)
 		command_prefix = kwargs.pop('commandPrefix', commands.when_mentioned_or('$'))
+
 		#Initialize the bot with all the parameters
 		super().__init__(command_prefix=command_prefix,*args,**kwargs)
 		#Deal with variables
@@ -115,6 +123,9 @@ class Claribot(commands.AutoShardedBot):
 		playing = self.data.DB.get_bot_setting('playing')
 		if not playing:
 			playing = "Database Errors" #If there was an error getting the playing status, use this instead
+		tokens = self.data.DB.get_bot_setting('fatokens')
+		if tokens:
+			self.fatokens = tokens.split(";")
 		out = Fore.GREEN + "------\n{0}\n{1}\nPlaying: {2}\nDeveloper Mode: {3}\n------".format(self.user,("Shard: {0}/{1}".format(self.shard_id,self.shard_count-1)) if self.shard_id is not None else "Shard: ==AUTO SHARDED==",playing,"TRUE" if self.dev_mode else "FALSE") + Style.RESET_ALL
 		print(out)
 		await self.change_presence(activity=discord.Game(name=playing)) #Set playing status
@@ -128,7 +139,11 @@ class Claribot(commands.AutoShardedBot):
 			return
 		prefix = self.data.DB.get_prefix(message=message) #Get the server's prefix
 		handle_owo = True
-		if (message.content.lower().startswith(prefix) or message.content.startswith("<@!{0}>".format(self.user.id))) and message.content.lower() != prefix: #Get if the message starts with the bot's mention or the guilds prefix
+		mentioned = message.content.startswith(self.user.mention)
+		if (message.content.lower().startswith(prefix) or mentioned) and message.content.lower() != prefix: #Get if the message starts with the bot's mention or the guilds prefix
+			if mentioned:
+				message.content = "$" + message.content[len(self.user.mention):].strip()
+				prefix = "$"
 			context = await self.funcs.overides.get_context(message,prefix)
 			blacklisted = self.funcs.main.is_blacklisted(guild=message.guild,message=message,command=context.command)
 			if context.command:
@@ -148,6 +163,12 @@ class Claribot(commands.AutoShardedBot):
 		if handle_owo:
 			owo_success = self.funcs.main.handle_owo(message)
 
+	async def on_command_completion(self,ctx):
+		if ctx.command.root_parent:
+			self.data.counters.update_command_usage(ctx.command.root_parent.name+"_"+ctx.command.name)
+		else:
+			self.data.counters.update_command_usage(ctx.command.name)
+
 	async def on_command_error(self,ctx,e): #If a command errors out, error names explain it all.
 		#print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
 		if isinstance(e, commands.CommandNotFound):
@@ -165,6 +186,7 @@ class Claribot(commands.AutoShardedBot):
 			after = "{0} {1} {2}s".format(m1,m2,round(seconds,1))
 			after = after.strip()
 			await ctx.send(ctx.gresponses['cooldown'].format(after))
+			return
 		elif isinstance(e, discord.errors.Forbidden):
 			await ctx.send(ctx.gresponses['no_perms'])
 		elif isinstance(e, checks.No_NSFW):
@@ -185,6 +207,8 @@ class Claribot(commands.AutoShardedBot):
 			await ctx.send(ctx.gresponses['guild_only'])
 		elif isinstance(e, commands.MissingRequiredArgument) or isinstance(e, commands.BadArgument):
 			await self.command_help(ctx)
+		elif isinstance(e, checks.Not_E):
+			pass
 		else:
 			#print("Command Error ({0}): `{1}`".format(type(e).__name__,e))
 			#await ctx.send("Command Error ({0}): `{1}`".format(type(e).__name__,e))
@@ -214,8 +238,8 @@ class Claribot(commands.AutoShardedBot):
 	def die(self): #Gracefully shut the bot down
 		try:
 			self.loop.stop()
-			cursor.close_all()
-			engine.dispose()
+			self.mysql.cursor.close_all()
+			self.mysql.engine.dispose()
 			tasks = asyncio.gather(*asyncio.Task.all_tasks(), loop=self.loop)
 			tasks.cancel()
 			self.loop.run_forever()

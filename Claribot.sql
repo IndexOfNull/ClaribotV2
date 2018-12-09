@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 04, 2018 at 06:14 AM
+-- Generation Time: Dec 09, 2018 at 10:52 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.6.23
 
@@ -60,7 +60,7 @@ CREATE TABLE `blacklist_users` (
 --
 
 CREATE TABLE `bot_data` (
-  `var_name` mediumtext COLLATE utf8mb4_bin NOT NULL,
+  `var_name` varchar(60) COLLATE utf8mb4_bin NOT NULL,
   `value` mediumtext COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
@@ -69,7 +69,8 @@ CREATE TABLE `bot_data` (
 --
 
 INSERT INTO `bot_data` (`var_name`, `value`) VALUES
-('playing', 'v2');
+('fatokens', 'c524e539-2f24-4df4-aeae-478e0a905aee;feacf803-363a-4271-9966-aadbcee2ffce'),
+('playing', 'tackleglomps you');
 
 -- --------------------------------------------------------
 
@@ -82,11 +83,6 @@ CREATE TABLE `owo_counter` (
   `user_id` bigint(20) NOT NULL,
   `count` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
---
--- Dumping data for table `owo_counter`
---
-
 
 -- --------------------------------------------------------
 
@@ -102,34 +98,13 @@ CREATE TABLE `personality` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `points`
---
-
-CREATE TABLE `points` (
-  `server_id` bigint(32) NOT NULL,
-  `user_id` bigint(32) NOT NULL,
-  `points` bigint(32) NOT NULL,
-  `timestamp` bigint(32) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
---
--- Dumping data for table `points`
---
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `prefix`
 --
 
 CREATE TABLE `prefix` (
   `server_id` bigint(32) NOT NULL,
-  `prefix` mediumtext COLLATE utf8mb4_bin NOT NULL
+  `prefix` text COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
---
--- Dumping data for table `prefix`
---
 
 -- --------------------------------------------------------
 
@@ -143,11 +118,6 @@ CREATE TABLE `server_options` (
   `value` mediumtext COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
---
--- Dumping data for table `server_options`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -158,10 +128,16 @@ CREATE TABLE `special_users` (
   `user_id` bigint(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `special_users`
+-- Table structure for table `usage_data`
 --
 
+CREATE TABLE `usage_data` (
+  `command` varchar(100) COLLATE utf8mb4_bin NOT NULL,
+  `amount` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- --------------------------------------------------------
 
@@ -179,10 +155,6 @@ CREATE TABLE `user_messages` (
   `been_read` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
---
--- Dumping data for table `user_messages`
-
-
 -- --------------------------------------------------------
 
 --
@@ -195,7 +167,7 @@ CREATE TABLE `warnings` (
   `reason` text COLLATE utf8mb4_bin NOT NULL,
   `warner` bigint(32) NOT NULL,
   `timestamp` bigint(32) NOT NULL,
-  `issue_id` mediumtext COLLATE utf8mb4_bin NOT NULL
+  `issue_id` varchar(20) COLLATE utf8mb4_bin NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 --
@@ -223,17 +195,23 @@ ALTER TABLE `blacklist_users`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `bot_data`
+--
+ALTER TABLE `bot_data`
+  ADD PRIMARY KEY (`var_name`);
+
+--
+-- Indexes for table `owo_counter`
+--
+ALTER TABLE `owo_counter`
+  ADD KEY `server_id` (`server_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `personality`
 --
 ALTER TABLE `personality`
   ADD KEY `server_id` (`server_id`);
-
---
--- Indexes for table `points`
---
-ALTER TABLE `points`
-  ADD KEY `server_id` (`server_id`),
-  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `prefix`
@@ -251,7 +229,14 @@ ALTER TABLE `server_options`
 -- Indexes for table `special_users`
 --
 ALTER TABLE `special_users`
+  ADD PRIMARY KEY (`user_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `usage_data`
+--
+ALTER TABLE `usage_data`
+  ADD PRIMARY KEY (`command`);
 
 --
 -- Indexes for table `user_messages`

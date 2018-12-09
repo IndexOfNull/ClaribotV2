@@ -189,6 +189,14 @@ class Counter():
 		self.bot = bot
 		self.cursor = self.bot.mysql.cursor
 
+	def update_command_usage(self,name):
+		try:
+			sql = 'INSERT INTO usage_data (command, amount) VALUES(:cmd,1) ON DUPLICATE KEY UPDATE amount=amount+1;'
+			result = self.cursor.execute(sql,{"cmd":name})
+			self.cursor.commit()
+		except Exception as e:
+			self.cursor.rollback()
+
 	def get_owo_count(self,user,guild,**kwargs):
 		all = kwargs.pop("every",False)
 		default = kwargs.pop("default",0)
@@ -556,7 +564,7 @@ class DB():
 
 	def add_special_user(self,user):
 		try:
-			sql = "INSERT INTO `special_users` (`user_id`) VALUES ('{0.id}');".format(user)
+			sql = "INSERT INTO `special_users` (`user_id`) VALUES ('{0.id}') ON DUPLICATE KEY UPDATE `user_id` = '{0.id}';".format(user)
 			result = self.cursor.execute(sql)
 			self.cursor.commit()
 			return True
@@ -596,6 +604,27 @@ class DB():
 			self.cursor.rollback()
 			return False
 
+	"""def add_ban(self,**kwargs):
+		user = kwargs.pop('user')
+		guild = kwargs.pop('guild')
+		reason = kwargs.pop('reason')
+		sender = kwargs.pop('banner')
+		now = self.bot.funcs.time.get_utc_now()
+		timestamp = kwargs.pop('timestamp',now)
+		return_data = kwargs.pop('return_data',False)
+		try:
+			sql = "INSERT INTO `bans` (`server_id`, `user_id`, `reason`, `banner`, `timestamp`) VALUES ('{0.id}', '{1.id}', :reason, '{2.id}', '{3}');".format(guild,user,sender,timestamp)
+			result = self.cursor.execute(sql,{'reason':reason})
+			self.cursor.commit()
+			if return_data:
+				return {'user':user,'guild':guild,'reason':reason,'warner':sender,'timestamp':timestamp,'id':id}
+			else:
+				return True
+		except Exception as e:
+			self.cursor.rollback()
+			return False"""
+
+
 	def del_warning(self,**kwargs):
 		guild = kwargs.pop('guild')
 		id = kwargs.pop('id')
@@ -612,9 +641,9 @@ class DB():
 		get_others = kwargs.pop('others',False)
 		try:
 			if get_others:
-				sql = "SELECT * FROM `warnings` WHERE user_id={0.id}".format(user)
+				sql = "SELECT * FROM `warnings` WHERE user_id={0.id} ORDER BY `timestamp` DESC".format(user)
 			else:
-				sql = "SELECT * FROM `warnings` WHERE user_id={0.id} AND server_id={0.id}".format()
+				sql = "SELECT * FROM `warnings` WHERE user_id={0.id} AND server_id={0.id} ORDER BY `timestamp` DESC".format()
 			results = self.cursor.execute(sql).fetchall()
 			if get_others:
 				server = []

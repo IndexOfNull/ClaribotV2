@@ -1,0 +1,23 @@
+
+Dec 9, 2018
+
+- Changes are now being logged!
+- OwO counter regex now has word boundaries so it only matches "lone" OwO's (not OwO's inside regular words)
+- Added $fabomb for some special people
+- Added $palette, for extracting color palettes from images.
+- Added framework for a ban system similar to $warn, but I don't think I'll ever use it.
+- Added image pre-processing so that we can save on network bandwidth, its not as efficient memory-wise, but it'll probably be okay.
+- Fixed command usage statistics not logging subcommands properly
+- $warning now has a better list command, allowing for easier viewing of warnings
+- Removed auto "_dev" being added to the database user while in dev mode, as it's not really needed
+- Added face commands like $facecrop and $dealwithit (hopefully more to come)
+- Condensed three lines of code for saving PIL images into one. (imaging.toBytes())
+- Changed $avatar to return the users avatar as a .png and not a .webp (so it can be chained more easily with other commands)
+- Added a time-delta helper function to parse strings like 1d10m5s into timedeltas
+- Fixed some minor grammatical problems with messages
+- $roulette added, but will remain disabled until its tweaked more.
+- More privacy
+- $vsplit added for special users (splits images vertically)
+- Rewrote the ENTIRE FA scraper, with cookie support (OwO)
+- Added $pp, for estimating the size of your friends' pp's
+- Fixed the (probably) long broken support for addressing the bot via a mention (@Claribot#5331)

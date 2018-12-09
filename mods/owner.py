@@ -11,6 +11,7 @@ class Owner():
 		self.bot = bot
 		self.funcs = self.bot.funcs
 		self.data = self.bot.data
+		self.cursor = self.bot.mysql.cursor
 
 	@commands.command()
 	@checks.AdvChecks.is_bot_owner()
@@ -131,6 +132,7 @@ class Owner():
 
 	@commands.command()
 	@commands.cooldown(1,3)
+	@checks.AdvChecks.is_bot_owner()
 	async def complaints(self,ctx,count:int=10,id:str=None):
 		try:
 			msgs = self.data.DB.get_user_messages(count=count,id=id,type='complaint')
@@ -156,6 +158,7 @@ class Owner():
 
 	@commands.command()
 	@commands.cooldown(1,3)
+	@checks.AdvChecks.is_bot_owner()
 	async def suggestions(self,ctx,count:int=10,id:str=None):
 		try:
 			msgs = self.data.DB.get_user_messages(count=count,id=id)
@@ -176,6 +179,23 @@ class Owner():
 				ids.append(msg['id'])
 				await ctx.send(embed=embed)
 			self.data.DB.set_user_message_read(ids,1)
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
+	@commands.command()
+	@commands.cooldown(1,10)
+	@checks.AdvChecks.is_bot_owner()
+	async def fatokens(self,ctx,a:str,b:str):
+		try:
+			token = a + ";" + b
+			if a.lower() == "n" and b.lower() == "n":
+				token = ""
+			r = self.data.DB.set_bot_setting('fatokens',token)
+			if r:
+				self.bot.fatokens = (a,b)
+				await ctx.send(":white_check_mark: My FA tokens have been successfully updated")
+			else:
+				await ctx.send(ctx.gresponses['generic_database_error'])
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 

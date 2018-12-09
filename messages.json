@@ -19,13 +19,15 @@
       "generic_sent_success": ":white_check_mark: Your {0} has been sent successfully!",
       "no_bot_owner": ":no_entry: You must be the bot owner in order to execute this command.",
       "no_special": ":sparkles: Thas command is restricted to SpecialBot users (friends of the owner).",
-      "no_nsfw": ":underage: That command is restricted to NSFW channels only.",
+      "no_nsfw": ":underage: That command is restricted to NSFW channels.",
       "no_mod": ":no_entry: That command is restricted to moderators.",
       "no_admin": ":no_entry: That command is restricted to admins.",
       "no_perms": ":no_entry: I hit a 403 error, please check that my permissions are setup propery. This could be a problem on our part.",
       "nsfw_disabled": ":no_entry: NSFW commands have been disabled on this server.",
       "check_failure": ":warning: Something went wrong while checking qualifications for this command.",
-      "generic_no_results": ":mag: It doesn't look like there are any results matching your query."
+      "generic_no_results": ":mag: It doesn't look like there are any results matching your query.",
+      "no_faces": ":mag: I could't find any faces in one (or more) of your photos, so I didn't respond to them.",
+      "generic_image_res": ":frame_photo: Please enter images with a resolution {0} {1}."
     },
     "commands": {
       "prefix": {
@@ -137,6 +139,13 @@
       "iq": {
         "response": ":scroll: ***{0.name}*** *has {1} IQ.*",
         "over230": ":scroll: ***{0.name}*** *has {1} IQ. They must watch Rick and Morty*."
+      },
+      "ohfuckgoback": {
+        "no_message": ":mag: I couldn't find a recent message to delete.",
+        "success": ":white_check_mark: I successfully removed my last message, good save..."
+      },
+      "vsplit": {
+        "limit": ":warning: Please divide images into no more than {0} parts."
       }
     }
   },

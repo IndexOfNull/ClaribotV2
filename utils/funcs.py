@@ -4,6 +4,8 @@ import discord
 import sys
 import re
 
+from PIL import Image
+
 from discord.ext.commands.view import StringView
 from discord.ext.commands.context import Context
 
@@ -96,6 +98,31 @@ class TimeBased():
 		tconverted = t.astimezone(tz.tzlocal())
 		tconverted = tconverted.replace(tzinfo=None)
 		return tconverted
+
+	def inputToDelta(self,input):
+		matches = re.finditer(r"(\d*\.?\d*)(.)",input)
+		deltas = []
+		final = datetime.timedelta(seconds=0)
+		if matches:
+			for match in matches:
+				value = match.group(1)
+				if not value or value == "":
+					continue
+				value = int(value)
+				unit = match.group(2)
+				if unit.lower() == "s":
+					deltas.append(datetime.timedelta(seconds=value))
+				elif unit.lower() == "y":
+					deltas.append(datetime.timedelta(days=365*value))
+				elif unit == "m":
+					deltas.append(datetime.timedelta(minutes=value))
+				elif unit == "d":
+					deltas.append(datetime.timedelta(days=value))
+				elif unit == "M":
+					deltas.append(datetime.timedelta(days=30.4167*value))
+		for delta in deltas:
+			final += delta
+		return final
 
 class Overides():
 
@@ -220,8 +247,11 @@ class CommandFuncs():
 
 	async def handle_error(self,ctx,e): #A generic error handler, so that we can universally change how errors are handled
 		if isinstance(e, discord.errors.Forbidden):
-			print(e.text)
+			#print(e.text)
 			await ctx.send(ctx.gresponses['forbidden_upload'])
+			return
+		if isinstance(e, aiohttp.client_exceptions.ClientConnectorError):
+			await ctx.send("It appears something went wrong while communicating with Discord, please try again.")
 			return
 		exc_type, exc_value, exc_traceback = sys.exc_info()
 		eText = e
@@ -249,7 +279,7 @@ class MainFuncs():
 				author = message.author
 				data = message.content
 				normalized = unicodedata.normalize('NFKD',data).encode("ascii","ignore").decode("utf-8")
-				occurences = re.findall(r"uwu|owo|uwo|owu",normalized,re.IGNORECASE)
+				occurences = re.findall(r"\b(uwu|owo|uwo|owu)\b",normalized,re.IGNORECASE)
 				count = len(occurences)
 				if count > 2: #Limit to 2 OwO's or UwU's per message
 					 count = 2
@@ -342,8 +372,12 @@ class Misc():
 			if len(m.attachments) > 0:
 				last_attachment = m.attachments[0].url
 			elif len(m.embeds) > 0:
-				last_attachment = m.embeds[0].image.url
+				if m.embeds[0].url:
+					last_attachment = m.embeds[0].url
+				else:
+					last_attachment = m.embeds[0].image.url
 			if last_attachment:
+				print(last_attachment)
 				if type:
 					t = await self.get_image_mime(last_attachment,type=True)
 					if t == type:
@@ -430,6 +464,7 @@ class Misc():
 				return False
 			return img_urls
 		except Exception as e:
+			print(e)
 			return False
 
 	async def bytes_download(self,url:str):
@@ -443,7 +478,7 @@ class Misc():
 		except:
 			return False
 
-	async def bytes_download_images(self,ctx,url,imgs=None):
+	async def bytes_download_images(self,ctx,url,imgs=None,preprocess=True):
 		img = await self.bytes_download(url)
 		has_failed = False
 		if not img:
@@ -454,6 +489,8 @@ class Misc():
 				return False
 			else:
 				return None
+		if preprocess:
+			img = self.bot.imaging.preprocess_image_bytes(img)
 		return img
 
 	def get_image_embed(self,srcurl,imgurl):
