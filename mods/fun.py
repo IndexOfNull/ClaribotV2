@@ -662,7 +662,7 @@ class Fun():
 				user = ctx.message.author
 				text = ", you have"
 			big = ('large','massive','very large','huge')
-			small = ('small','tiny','no','micro')
+			small = ('small','tiny','no','micro','inverted')
 			sizes = big if randint(0,1) == 1 else small
 			emb = discord.Embed(title="PP Guesser 9000",type="rich",color=discord.Color.gold(),description=user.mention+text+" `"+random.sample(sizes,1)[0]+" pp`")
 			await ctx.send(embed=emb)

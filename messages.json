@@ -5,7 +5,7 @@
       "test": "<:Ouch:517553207908761612>"
     },
     "global": {
-      "cooldown": ":test: That command is currently on cooldown. Please try again in {0}.",
+      "cooldown": ":clock1: That command is currently on cooldown. Please try again in {0}.",
       "file_count_limit": ":no_entry: Please enter no more than than {0} files.",
       "missing_image_attachments": ":frame_photo: Please input url(s){0}or attachment(s).",
       "image_command": ":frame_photo: That command is for still images only.",
@@ -155,10 +155,5 @@
         "decode_error": ":warning: There was a problem decoding your base64 encoded text. Please make sure it is valid."
       }
     }
-  },
-  "test": {
-    "emoji": {"test": "<:c2:525395527005896724>"},
-    "global": {},
-    "commands": {}
   }
 }
