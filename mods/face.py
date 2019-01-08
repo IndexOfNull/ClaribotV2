@@ -92,7 +92,6 @@ class Face():
 					for face in faces:
 						landmarks = face['faceLandmarks']
 						attributes = face['faceAttributes']
-						print("{0}".format(attributes['headPose']))
 						mirrored = False
 						if attributes['headPose']['yaw'] < -2:
 							glasses = ImageOps.mirror(glasses)
@@ -105,7 +104,6 @@ class Face():
 							glasses = glasses.rotate(int(attributes['headPose']['roll']*-1),expand=True,center=(gw*0.66,gh*0.21))
 						grw, grh = glasses.size
 						wdiff, hdiff = (grw-gw,grh-gh)
-						print(wdiff,hdiff)
 						#print(int(landmarks['eyeLeftOuter']['x']-gw/1.5))
 						r = Image.new("RGBA",(1,1),"red")
 						noseX = (landmarks['noseRootLeft']['x']+landmarks['noseRootRight']['x'])/2

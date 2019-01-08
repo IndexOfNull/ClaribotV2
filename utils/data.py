@@ -479,8 +479,8 @@ class DB():
 			return prefix
 		except Exception as e:
 			print(e)
-			return "$"
 			self.cursor.rollback()
+			return "$"
 
 	def set_prefix(self,guild,prefix:str): #Sets the command prefix for the guild
 		try:
@@ -542,7 +542,7 @@ class DB():
 						users.append(user['user_id'])
 				return users
 			return []
-		except:
+		except Exception as e:
 			self.cursor.rollback()
 			return False
 

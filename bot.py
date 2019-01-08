@@ -41,10 +41,12 @@ class Object(object): pass
 def get_responses(): #Get all the responses for different personalities and reconstruct any missing responses.
 	with open("messages.json","r") as f:
 		responses = json.loads(f.read())
-	defaults = responses['normal']
-	responses.pop('default',None)
+	defaults = responses.pop('normal',None)
 	non_defaults = responses
 	for nd in non_defaults: #Go through all message sets, except for the default one.
+		for emoji in defaults['emoji']:
+			if not emoji in responses[nd]['emoji']:
+				responses[nd]['emoji'][emoji] = defaults['emoji'][emoji]
 		for msg in defaults['global']:
 			if not msg in responses[nd]['global']: #If the current non_default doesn't have the global message, add it.
 				responses[nd]['global'][msg] = defaults['global'][msg]
@@ -57,7 +59,30 @@ def get_responses(): #Get all the responses for different personalities and reco
 					if not msg in responses[nd]['commands'][group]:
 						responses[nd]['commands'][group][msg] = defaults['commands'][group][msg]
 	responses['normal'] = defaults
+	#resolve emoji's
+	"""for pname, personality in responses.items():
+		print(pname)
+		emoji = responses[pname]['emoji']
+		emojis = emoji.keys()
+		for msgkey, globalmsg in personality['global'].items():
+			for key in emojis:
+				if globalmsg.find(":"+key+":") > -1:
+					s = globalmsg.replace(":"+key+":",emoji[key])
+					responses[pname]['global'][msgkey] = s
+					#print("replacing: responses['" + pname + "']['globals']['"+msgkey+"'] -> "+s)
+					#print(pname,s)
+		for cmdkey, cmdmsgset in personality['commands'].items():
+			for cmdname, cmdmsg in cmdmsgset.items():
+				#print(cmdmsg)
+				for key in emojis:
+					if cmdmsg.find(":"+key+":") > -1:
+						s = cmdmsg.replace(":"+key+":",emoji[key])
+						print(s,pname,cmdkey,cmdname)
+						responses[pname]['commands'][cmdkey][cmdname] = s
+						#print("replacing: responses['" + pname + "']['commands']['"+cmdkey+"'] -> "+s)"""
 	return responses
+
+
 
 def setup_funcs(bot): #Initialize any variables and systems that we need later.
 	#if bot.dev_mode is True:
@@ -218,7 +243,7 @@ class Claribot(commands.AutoShardedBot):
 	async def on_guild_join(self,guild):
 		channel_names = ["entry","general","general-chat","general2","general-2","general-chat-2"]
 		exclude = ["rules","announcements","major-announcements","important-announcements"]
-		message = "Hi there!\n\nMy name is Claribot, and I'm here to add some fun features to your server! I have a variety of commands that can manipulate images, make decisions, count how many times you have said \"OwO\", and much more.\n\nMy default command prefix is `$`, but you can always change it with $prefix."
+		message = "*Hi there!* :wave:\n\nI'm Claribot, and I'm here to spice your server up a little bit.\nI hope that you'll find good uses for my various features.\n\nYou can view my command list with **$help**"
 		for channel in guild.channels:
 			if channel.name in channel_names and not channel.name in exclude:
 				await channel.send(message)

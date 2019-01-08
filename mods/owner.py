@@ -86,6 +86,9 @@ class Owner():
 			str = "```md\nSpecialBot Users\n--------------------\n{0}\n\n```"
 			str2 = "+ {0.name}#{0.discriminator} ({0.id})\n"
 			final = ""
+			if users is False:
+				await ctx.send("Error occured while getting special users")
+				return
 			if users or len(users) == 0:
 				if len(users) == 0:
 					final = "None"
@@ -196,6 +199,15 @@ class Owner():
 				await ctx.send(":white_check_mark: My FA tokens have been successfully updated")
 			else:
 				await ctx.send(ctx.gresponses['generic_database_error'])
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
+	@commands.command()
+	@commands.cooldown(1,3)
+	@checks.AdvChecks.is_bot_owner()
+	async def crossemojitest(self,ctx,key:str="test"):
+		try:
+			await ctx.send(ctx.emoji[key])
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 

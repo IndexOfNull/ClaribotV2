@@ -79,6 +79,9 @@ class NSFW():
             pass"""
 
     @commands.command(aliases=['fa'])
+    @checks.AdvChecks.nsfw()
+    @commands.cooldown(1,5,commands.BucketType.guild)
+    @checks.AdvChecks.is_special()
     async def furaffinity(self,ctx,*,query:str=""):
         try:
             #Finish this up

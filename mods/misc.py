@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import hashlib
+import string
 
 from random import randint
 
@@ -20,6 +21,11 @@ except:
 from utils.api import reddit
 
 import traceback
+
+import base64
+import binascii
+import datetime
+
 
 class Misc():
 
@@ -246,6 +252,36 @@ class Misc():
 		except Exception as e:
 			await self.funcs.command.handle_error(ctx,e)
 
+	@commands.command(aliases=["b64","b64e","base64encode","base64e"])
+	@commands.cooldown(1,3,commands.BucketType.user)
+	async def base64(self,ctx,*,text:str):
+		try:
+			await ctx.trigger_typing()
+			final = base64.b64encode(text.encode('utf-8'))
+			if len(final)+2 > 2000:
+				await ctx.send(ctx.gresponses['message_too_long'])
+				return
+			await ctx.send("`"+final.decode('utf-8')+"`")
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
+	@commands.command(aliases=["b64decode","b64d","base64d"])
+	@commands.cooldown(1,3,commands.BucketType.user)
+	async def base64decode(self,ctx,*,text:str):
+		try:
+			await ctx.trigger_typing()
+			try:
+				final = base64.b64decode(text.encode('utf-8'))
+			except:
+				await ctx.send(ctx.cresponses['decode_error'])
+				return
+			if len(final)+2 > 2000:
+				await ctx.send(ctx.gresponses['message_too_long'])
+				return
+			await ctx.send("`"+final.decode('utf-8')+"`")
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
 	@commands.command()
 	@commands.cooldown(1,5,commands.BucketType.guild)
 	@commands.bot_has_permissions(attach_files=True)
@@ -366,6 +402,35 @@ class Misc():
 				await ctx.send(ctx.cresponses['no_results'])
 		except Exception as e:
 			traceback.print_exc()
+
+	@commands.command(aliases=["vapor"])
+	@commands.cooldown(1,3,commands.BucketType.user)
+	async def vaporwave(self,ctx,*,text:str):
+		try:
+			final = ""
+			await ctx.trigger_typing()
+			for c in text:
+				try:
+					alphabet_location = string.ascii_lowercase.index(c.lower())
+					start_upper = 0xFF21
+					start_lower = 0xFF41
+					start = start_lower
+					if c.isupper():
+						start = start_upper
+					h = start + alphabet_location
+					final += chr(h)
+				except ValueError:
+					final += c
+			if len(final)+4 > 2000:
+				await ctx.send(ctx.gresponses['message_too_long'])
+				return
+			await ctx.send("`【﻿ "+final+" 】`")
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
+
+	@commands.command()
+	async def ping(self,ctx):
+	    await ctx.send("Pong! `{}ms`".format(int(self.bot.latency*1000)))
 
 def setup(bot):
 	bot.add_cog(Misc(bot))

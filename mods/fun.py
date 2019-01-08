@@ -193,8 +193,8 @@ class Fun():
 						return
 					img = Image.open(b).convert("RGBA")
 					vr = Image.open('resource/img/victoryroyale.png').convert('RGBA')
-					vr.thumbnail((int(img.size[0]/1.5), int(img.size[1]/6)))
-					pasted = self.imaging.paste(img,vr,offset=(int(img.size[0]/2-vr.size[0]/2),int(img.size[1]/4)),bytes=True)
+					vr.thumbnail((int(img.size[0]/1.2), int(img.size[1]/4.5)))
+					pasted = self.imaging.paste(img,vr,offset=(int(img.size[0]/2-vr.size[0]/2),int(img.size[1]/5)),bytes=True)
 					await self.bot.funcs.misc.handle_uploads(ctx,pasted,filename="victoryroyale.png")
 		except discord.errors.Forbidden as e:
 			await self.funcs.command.handle_error(ctx,e)
@@ -657,15 +657,31 @@ class Fun():
 	@commands.cooldown(1,3,commands.BucketType.user)
 	async def pp(self,ctx,user:discord.Member=None):
 		try:
-			text = "has"
+			text = " has"
 			if not user:
 				user = ctx.message.author
 				text = ", you have"
-			sizes = ('small','large','very large','tiny','no',str(randint(0,69)))
+			big = ('large','massive','very large','huge')
+			small = ('small','tiny','no','micro')
+			sizes = big if randint(0,1) == 1 else small
 			emb = discord.Embed(title="PP Guesser 9000",type="rich",color=discord.Color.gold(),description=user.mention+text+" `"+random.sample(sizes,1)[0]+" pp`")
 			await ctx.send(embed=emb)
 		except Exception as e:
 			await self.funcs.command.handle_Error(ctx,e)
+
+	@commands.command()
+	@commands.cooldown(1,3,commands.BucketType.user)
+	async def gay(self,ctx,user:discord.Member=None):
+		try:
+			text = " has"
+			if not user:
+				user = ctx.message.author
+				text = ", you have"
+			num = str(randint(0,100)) if user.id != 166206078164402176 else "0"
+			emb = discord.Embed(title="Gay Guesser 6900",type="rich",color=discord.Color.gold(),description=user.mention+text+" `"+num+"% gay`")
+			await ctx.send(embed=emb)
+		except Exception as e:
+			await self.funcs.command.handle_error(ctx,e)
 
 	@commands.command()
 	@commands.cooldown(1,3,commands.BucketType.user)

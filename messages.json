@@ -1,15 +1,19 @@
 {
   "normal": {
     "_comment": "'default' is reserved for values that are not specified, it should be ignored when selected as a personality. Also, make sure EVERYTHING is put here when developing, as it cannot have any missing values.",
+    "emoji": {
+      "test": "<:Ouch:517553207908761612>"
+    },
     "global": {
-      "cooldown": ":timer: This command is currently on cooldown. Please try again in {0}.",
+      "cooldown": ":test: That command is currently on cooldown. Please try again in {0}.",
       "file_count_limit": ":no_entry: Please enter no more than than {0} files.",
       "missing_image_attachments": ":frame_photo: Please input url(s){0}or attachment(s).",
-      "image_command": ":frame_photo: This command is for still images only.",
-      "gif_command": ":film_frames: This command is for gifs only.",
+      "image_command": ":frame_photo: That command is for still images only.",
+      "gif_command": ":film_frames: That command is for gifs only.",
       "response_too_big": ":envelope: I can't upload my response because it is too big.",
+      "message_too_long": ":envelope: My response can't be properly sent because it's greater than 2000 characters.",
       "download_fail": ":warning: Something went wrong while downloading one of your file(s).",
-      "forbidden_upload": ":no_entry: It appears that I do not have permission to upload my response. If this isn't intentional, check to make sure that my permissions are configured properly.",
+      "forbidden_upload": ":no_entry: It appears that I do not have permission to upload my response. Check to make sure that my permissions are configured properly.",
       "bot_missing_perms": ":warning: I do not have the necessary permissions to successfully execute your command. [I need: `{0}`]",
       "generic_api_error": ":warning: There was an API error.",
       "generic_database_error": ":warning: Something went wrong while working with the database.",
@@ -17,21 +21,21 @@
       "confirmation_needed": ":pencil: I need confirmation before executing your command. Please check your DMs for a confirmation message.",
       "guild_only": ":no_entry: That command can only be used in guilds.",
       "generic_sent_success": ":white_check_mark: Your {0} has been sent successfully!",
-      "no_bot_owner": ":no_entry: You must be the bot owner in order to execute this command.",
+      "no_bot_owner": ":no_entry: You must be the bot owner in order to execute that command.",
       "no_special": ":sparkles: Thas command is restricted to SpecialBot users (friends of the owner).",
       "no_nsfw": ":underage: That command is restricted to NSFW channels.",
       "no_mod": ":no_entry: That command is restricted to moderators.",
       "no_admin": ":no_entry: That command is restricted to admins.",
       "no_perms": ":no_entry: I hit a 403 error, please check that my permissions are setup propery. This could be a problem on our part.",
       "nsfw_disabled": ":no_entry: NSFW commands have been disabled on this server.",
-      "check_failure": ":warning: Something went wrong while checking qualifications for this command.",
+      "check_failure": ":warning: Something went wrong while checking qualifications for your command.",
       "generic_no_results": ":mag: It doesn't look like there are any results matching your query.",
       "no_faces": ":mag: I could't find any faces in one (or more) of your photos, so I didn't respond to them.",
       "generic_image_res": ":frame_photo: Please enter images with a resolution {0} {1}."
     },
     "commands": {
       "prefix": {
-        "current_prefix": ":gear: My command prefix for this server is `{0}`.",
+        "current_prefix": ":test: My command prefix for this server is `{0}`.",
         "set_prefix": ":white_check_mark: My command prefix for this server has been set to `{0}`.",
         "error": ":x: Something went wrong while updating my prefix, please try again.",
         "reset_prefix": ":white_check_mark: My command prefix has been reset back to `$`."
@@ -89,7 +93,7 @@
         "toggle_error": ":warning: Something went wrong while toggling your command."
       },
       "qrdecode": {
-        "no_data": ":warning: I couldn't find a QR code in this image."
+        "no_data": ":warning: I couldn't find a QR code in your image."
       },
       "idban": {
         "success": ":white_check_mark: {0} has been successfully banned.",
@@ -146,147 +150,15 @@
       },
       "vsplit": {
         "limit": ":warning: Please divide images into no more than {0} parts."
+      },
+      "base64decode": {
+        "decode_error": ":warning: There was a problem decoding your base64 encoded text. Please make sure it is valid."
       }
     }
   },
-  "cat": {
-    "_comment": "OwO",
-    "global": {
-      "cooldown": ":timer: I'm busy chasing other mice, give me {0}.",
-      "file_count_limit": ":no_entry: Please enter no more than than {0} files.",
-      "missing_image_attachments": ":frame_photo: Please input url(s){0}or attachment(s).",
-      "image_command": ":frame_photo: This command is for cat pictures only.",
-      "gif_command": ":film_frames: This command is for cat gifs only.",
-      "response_too_big": ":envelope: I can't upload my response because it is too big.",
-      "download_fail": ":warning: Something went wrong while downloading one of your file(s).",
-      "forbidden_upload": ":no_entry: It appears that I do not have permission to upload my response. If this isn't intentional, check to make sure that my permissions are configured properly.",
-      "bot_missing_perms": ":warning: I do not have the necessary permissions to successfully execute your command. [I need: `{0}`]",
-      "generic_api_error": ":warning: There was a problem while talking with the API, maybe they don't speak cat.",
-      "generic_database_error": ":warning: Something went wrong while playing with the database.",
-      "generic_limit": ":no_entry: Please enter {0} than {1}.",
-      "confirmation_needed": ":pencil: I need a treat before I can do that for you. Please check your DMs for a confirmation message.",
-      "guild_only": ":no_entry: That command can only be used in guilds.",
-      "generic_sent_success": ":white_check_mark: Your {0} has been sent successfully!",
-      "no_bot_owner": ":no_entry: You must be the bot owner in order to execute this command.",
-      "no_special": ":sparkles: Thas command is restricted to SpecialBot users (friends of the owner).",
-      "no_nsfw": ":underage: There could be kittens here, please use that in an NSFW channel.",
-      "no_mod": ":no_entry: That command is restricted to moderators.",
-      "no_admin": ":no_entry: That command is restricted to admins.",
-      "no_perms": ":no_entry: Forbidden? What would someone hide from a cat. Make sure that my permissions are setup correctly.",
-      "nsfw_disabled": ":no_entry: NSFW commands have been disabled on this server.",
-      "check_failure": ":warning: Something went wrong while checking qualifications for this command."
-    },
-    "commands": {
-      "prefix": {
-        "current_prefix": ":gear: My command prefix for this server is `{0}`.",
-        "set_prefix": ":white_check_mark: My command prefix for this server has been set to `{0}`.",
-        "error": ":x: Something went wrong while updating my prefix, please try again.",
-        "reset_prefix": ":white_check_mark: My command prefix has been reset back to `$`."
-      },
-      "personality": {
-        "current": ":bust_in_silhouette: My personality is currently set to `{0}`",
-        "set": ":white_check_mark: My personality has been changed to `{0}`",
-        "error": ":x: Something went wrong while changing personalities, please try again.",
-        "invalid": ":warning: That isn't a valid personality, the valid personalities are `{0}`."
-      },
-      "option": {
-        "current": ":file_cabinet: `{0}` is currently set to `{1}`",
-        "error_retrieve": ":x: Something went wrong while getting the current value of `{0}`, please try again.",
-        "error_set": ":x: Something went wrong while updating the value of `{0}`, please try again.",
-        "success": ":white_check_mark: The value of `{0}` has been set to `{1}`",
-        "invalid_option": ":warning: That isn't a valid option, the valid options are `{0}`.",
-        "invalid_value": ":warning: You did not enter a valid value, please use `{0}`."
-      },
-      "rps": {
-        "won": "{0}! I win, you owe me some catnip.",
-        "lost": "{0}! You win.",
-        "draw": "{0}! It's a draw.",
-        "invalid_input": "You can't play rock, paper, scissors with that."
-      },
-      "choose": {
-        "selection": "I choose `{0}`!"
-      },
-      "nickname": {
-        "too_long": ":no_entry: Please enter a nickname with fewer than 32 characters.",
-        "success": ":white_check_mark: My nickname has been updated successfully!"
-      },
-      "roll": {
-        "max": ":no_entry: Please roll no more than {0} dice.",
-        "max_sides": ":no_entry: Please roll dice with no more than {0} sides.",
-        "min": ":no_entry: Please roll dice with at {0} {1}.",
-        "min_dice": ":no_entry: Please roll at least {0} dice.",
-        "rolls": ":game_die: I rolled: {0}.",
-        "single_roll": ":game_die: I rolled a {0}."
-      },
-      "furaffinity": {
-        "no_results": ":mag: It doesn't look like there are any results matching your query, try searching for cats, that usually works.",
-        "error": ":no_entry: Something went wrong, FA may be blocking bots right now."
-      },
-      "deviantart": {
-        "no_results": ":mag: It doesn't look like there are any results matching your query, try searching for cats, that usually works."
-      },
-      "furry": {
-        "no_results": ":mag: It doesn't look like there are any results matching your query, try searching for cats, that usually works."
-      },
-      "blacklist": {
-        "invalid_command": ":no_entry: That is not a valid command.",
-        "command_toggled": ":white_check_mark: I have successfully toggled that command.",
-        "channel_toggled": ":white_check_mark: I have successfully toggled that channel.",
-        "user_toggled": ":white_check_mark: I have successfully toggled that user.",
-        "toggle_error": ":warning: Something went wrong while toggling your command."
-      },
-      "qrdecode": {
-        "no_data": ":warning: I couldn't find a QR code in this image."
-      },
-      "idban": {
-        "success": ":white_check_mark: {0} has been successfully banned.",
-        "no_user": ":warning: That is not a valid user id."
-      },
-      "crypto": {
-        "invalid_currency": ":warning: No valid data was returned. Please make sure you are using valid 3-letter currency codes."
-      },
-      "warn": {
-        "error": ":warning: Something went wrong while sending a warning to that user. Please note that the warning may have still been entered.",
-        "success": ":white_check_mark: I have sent your warning to {0.mention}."
-      },
-      "warning": {
-        "invalid_id": ":warning: A warning with that ID doesn't exist.",
-        "get_success": ":white_check_mark: I sent you a copy of warning `{0}`.",
-        "del_success": ":white_check_mark: I have deleted the specified warning successfully.",
-        "del_error": ":warning: Something went wrong while deleting the specified warning. Note that it still may have been deleted.",
-        "list": ":outbox_tray: I sent you a list of warnings for the specified user."
-      },
-      "prune": {
-        "generic_success": ":white_check_mark: I have successfully pruned {0} message(s).",
-        "by_success": ":white_check_mark: I have successfully pruned {0} message(s) from {1}.",
-        "with_success": ":white_check_mark: I have successfully pruned {0} message(s) with {1}.",
-        "none_pruned": ":warning: No messages were pruned.",
-        "error": ":warning: Something went wrong while pruning message(s)."
-      },
-      "clean": {
-        "generic_success": ":white_check_mark: I have successfully cleaned {0} of my messages.",
-        "none_pruned": ":warning: No messages were cleaned."
-      },
-      "suggestions": {
-        "none": "There are currently no suggestions to report."
-      },
-      "complaints": {
-        "none": "There are currently no complaints to report."
-      },
-      "owo": {
-        "count": "***{0.name}*** has *OwO*'d {1} times.",
-        "none": "***{0.name}*** has not *OwO*'d... yet."
-      },
-      "reddit": {
-        "no_results": ":mag: It doesn't look like there are any results matching your query. Moving to an NSFW channel may help if you are searching on a subreddit where NSFW content is common."
-      },
-      "meme": {
-        "no_results": ":satellite: There was a problem contacting the meme aliens."
-      },
-      "iq": {
-        "response": ":scroll: ***{0.name}*** *has {1} IQ.*",
-        "over230": ":scroll: ***{0.name}*** *has {1} IQ. They must watch Rick and Morty*."
-      }
-    }
+  "test": {
+    "emoji": {"test": "<:c2:525395527005896724>"},
+    "global": {},
+    "commands": {}
   }
 }

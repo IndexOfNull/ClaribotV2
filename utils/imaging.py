@@ -101,14 +101,15 @@ class ImageManip():
 			if hasattr(img, '_getexif'):
 				exif = img._getexif()
 				if exif is not None:
-					orientation = exif[0x0112]
-					rotations = {
-						3: Image.ROTATE_180,
-						6: Image.ROTATE_270,
-						8: Image.ROTATE_90
-					}
-					if orientation in rotations:
-						img = img.transpose(rotations[orientation])
+					if len(exif) >= 0x0112: #Check if 0x0112 exists in the exif data. Special thanks to my friend who pointed this out to me.
+						orientation = exif[0x0112]
+						rotations = {
+							3: Image.ROTATE_180,
+							6: Image.ROTATE_270,
+							8: Image.ROTATE_90
+						}
+						if orientation in rotations:
+							img = img.transpose(rotations[orientation])
 			img.thumbnail((2000,2000))
 		if not rimg:
 			b = self.toBytes(img,img.format)

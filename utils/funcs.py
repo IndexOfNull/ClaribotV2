@@ -8,6 +8,7 @@ from PIL import Image
 
 from discord.ext.commands.view import StringView
 from discord.ext.commands.context import Context
+from discord.ext import commands
 
 from io import BytesIO
 import json
@@ -180,10 +181,11 @@ class Overides():
 		if ctx.command:
 			ctx.responses = self.bot.funcs.main.get_responses(command_name=ctx.command.name,personality=ctx.personality)
 			ctx.gresponses = ctx.responses['global']
+			ctx.emoji = ctx.responses['emoji']
 			if 'command' in ctx.responses:
 				ctx.cresponses = ctx.responses['command']
 		else:
-			ctx.responses = self.bot.funcs.main.get_responses(personality='default')
+			ctx.responses = self.bot.funcs.main.get_responses(personality='normal')
 			ctx.gresponses = ctx.responses['global']
 		yield from self.bot.invoke(ctx)
 
@@ -288,16 +290,30 @@ class MainFuncs():
 		except Exception as e:
 			print(e)
 
-	def get_responses(self,**kwargs):
+	"""def get_responses(self,**kwargs):
 		try:
 			command = kwargs.pop('command_name',None)
 			personality = kwargs.pop('personality')
-			resp = {"global":self.bot.responses[personality]['global']}
+			resp = {"global":self.bot.responses[personality]['global'],"emoji":self.bot.responses[personality]['emoji']}
 			if command:
 				resp['command'] = self.bot.responses[personality]['commands'][command]
 			return resp
 		except:
-			return {"global":self.bot.responses['normal']['global']}
+			return {"global":self.bot.responses['normal']['global'],"emoji":self.bot.responses['normal']['emoji']}"""
+
+	def get_responses(self,**kwargs):
+		try:
+			command = kwargs.pop('command_name',None)
+			personality = kwargs.pop('personality','normal')
+			resp = self.bot.responses[personality]
+			if isinstance(command, commands.Command):
+				command = command.name
+			if command:
+				if command in self.bot.responses[personality]['commands']:
+					resp['command'] = self.bot.responses[personality]['commands'][command]
+			return resp
+		except:
+			return self.bot.responses['normal']
 
 	def is_blacklisted(self,**kwargs): #If ANY of the parameters are in a blacklist, will return True. If not, returns False
 		try:
@@ -377,7 +393,6 @@ class Misc():
 				else:
 					last_attachment = m.embeds[0].image.url
 			if last_attachment:
-				print(last_attachment)
 				if type:
 					t = await self.get_image_mime(last_attachment,type=True)
 					if t == type:
@@ -418,7 +433,8 @@ class Misc():
 			if gif is False:
 				for u in mentions:
 					if u.avatar:
-						urls.append('https://media.discordapp.net/avatars/{0.id}/{0.avatar}.png?size=512'.format(u))
+						#urls.append('https://media.discordapp.net/avatars/{0.id}/{0.avatar}.png?size=512'.format(u))
+						urls.append(u.avatar_url_as(format="png",size=512))
 					else:
 						urls.append(u.default_avatar_url)
 					img_count+=1

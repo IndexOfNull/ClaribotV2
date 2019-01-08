@@ -63,6 +63,8 @@ Fun:
   36. Spooky Scary Skeletons  : $spooky (October only)
   37. Banana Man              : $banana <text>*
   38. PP                      : $pp <user>
+  39. Gay                     : $gay <user>
+  40. ｖａｐｏｒｗａｖｅ         : $vaporwave <text>*
 
 Image Manipulation:
   1. Invert Colors          : $invert <image>
@@ -96,6 +98,8 @@ Misc:
   5. Random Number               : $random <min>* <max>*
   6. Upside Down Text            : $upsidedown <text>*
   7. Cryptocurrency Conversion   : $crypto <from> <to> -- Converts 1 of "from" into the currency of "to" (eg. 1 BTC -> 6000 USD)
+  8. Base 64 Encode              : $b64 <text>*
+    8.1 Base 64 Decode           : $b64d <base64>*
 
 
 NSFW (Must be in a NSFW channel):
